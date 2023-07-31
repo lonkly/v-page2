@@ -9,9 +9,10 @@ module.exports = function(eleventyConfig) {
     eleventyConfig.setBrowserSyncConfig({ callbacks: { ready: browserSyncReady }});
   }
 
-
   // Passthrough
   eleventyConfig.addPassthroughCopy({ "src/static": "." });
+
+  eleventyConfig.addPassthroughCopy("src/styles/cyberpunk.css");
 
   // Watch targets
   eleventyConfig.addWatchTarget("./src/styles/");
