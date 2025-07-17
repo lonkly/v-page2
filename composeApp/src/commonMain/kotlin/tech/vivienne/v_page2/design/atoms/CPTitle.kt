@@ -1,6 +1,6 @@
 package tech.vivienne.v_page2.design.atoms
 
-import org.jetbrains.compose.ui.tooling.preview.Preview
+
 import tech.vivienne.v_page2.design.CyberpunkTheme
 import tech.vivienne.v_page2.design.animateBlinking
 import tech.vivienne.v_page2.design.glitchEffect
@@ -126,68 +126,3 @@ enum class CyberpunkTitleLevel {
     H1, H2, H3, H4
 }
 
-@Preview
-@Composable
-fun CyberpunkTitlePreview() {
-    CyberpunkTheme {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(24.dp)
-        ) {
-            CyberpunkTitle(
-                text = "System Status",
-                level = CyberpunkTitleLevel.H1
-            )
-
-            CyberpunkTitle(
-                text = "Neural Interface",
-                level = CyberpunkTitleLevel.H2,
-                glitchEffect = true
-            )
-
-            CyberpunkTitle(
-                text = "Connection Active",
-                level = CyberpunkTitleLevel.H3
-            )
-
-            CyberpunkTitle(
-                text = "Data Stream",
-                level = CyberpunkTitleLevel.H4,
-                showCursor = false
-            )
-        }
-    }
-}
-
-@Preview
-@Composable
-fun CyberpunkTitleDarkPreview() {
-    CyberpunkTheme(darkTheme = true) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(24.dp)
-        ) {
-            CyberpunkTitle(
-                text = "Cyberpunk 2077",
-                level = CyberpunkTitleLevel.H1,
-                glitchEffect = true
-            )
-
-            CyberpunkTitle(
-                text = "Access Granted",
-                level = CyberpunkTitleLevel.H2,
-                color = CyberpunkTheme.colors.neonGreen
-            )
-
-            CyberpunkTitle(
-                text = "Breach Protocol",
-                level = CyberpunkTitleLevel.H3,
-                color = CyberpunkTheme.colors.redPrimary
-            )
-        }
-    }
-}

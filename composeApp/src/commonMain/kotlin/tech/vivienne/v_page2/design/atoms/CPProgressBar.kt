@@ -1,6 +1,5 @@
 package tech.vivienne.v_page2.design.atoms
 
-import org.jetbrains.compose.ui.tooling.preview.Preview
 import tech.vivienne.v_page2.design.CyberpunkTheme
 import androidx.compose.animation.core.*
 import androidx.compose.foundation.background
@@ -13,6 +12,7 @@ import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import kotlin.random.Random
 
 @Composable

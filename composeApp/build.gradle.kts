@@ -39,6 +39,7 @@ kotlin {
     desktopMain.dependencies {
       implementation(compose.desktop.currentOs)
       implementation(libs.ktor.client.cio)
+      implementation(compose.uiTooling)
     }
 
     commonMain.dependencies {
@@ -46,7 +47,7 @@ kotlin {
       implementation(compose.foundation)
       implementation(compose.material3)
       implementation(compose.materialIconsExtended)
-      implementation(compose.ui)
+
       implementation(compose.components.resources)
       implementation(compose.components.uiToolingPreview)
       implementation(libs.androidx.lifecycle.viewmodel)
@@ -72,6 +73,10 @@ kotlin {
 compose.desktop {
   application {
     mainClass = "tech.vivienne.v_page2.MainKt"
+    
+    nativeDistributions {
+      targetFormats(TargetFormat.Dmg, TargetFormat.Msi, TargetFormat.Deb)
+    }
   }
 }
 

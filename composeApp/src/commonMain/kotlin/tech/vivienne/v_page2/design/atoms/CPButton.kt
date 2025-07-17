@@ -1,6 +1,6 @@
 package tech.vivienne.v_page2.design.atoms
 
-import org.jetbrains.compose.ui.tooling.preview.Preview
+
 import tech.vivienne.v_page2.design.CyberpunkShapes
 import tech.vivienne.v_page2.design.CyberpunkTheme
 import androidx.compose.animation.core.*
@@ -96,68 +96,3 @@ enum class CyberpunkButtonVariant {
     Red, Green, Blue, Purple
 }
 
-@Preview
-@Composable
-fun CyberpunkButtonPreview() {
-    CyberpunkTheme {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            CyberpunkButton(
-                onClick = {},
-                text = "Connect",
-                variant = CyberpunkButtonVariant.Red
-            )
-
-            CyberpunkButton(
-                onClick = {},
-                text = "Hack System",
-                variant = CyberpunkButtonVariant.Green,
-                glitchEffect = true
-            )
-
-            CyberpunkButton(
-                onClick = {},
-                text = "Decrypt",
-                variant = CyberpunkButtonVariant.Blue,
-                codeIndicator = "B-77"
-            )
-
-            CyberpunkButton(
-                onClick = {},
-                text = "Access",
-                variant = CyberpunkButtonVariant.Purple,
-                enabled = false
-            )
-        }
-    }
-}
-
-@Preview
-@Composable
-fun CyberpunkButtonDarkPreview() {
-    CyberpunkTheme(darkTheme = true) {
-        Column(
-            modifier = Modifier
-                .fillMaxWidth()
-                .padding(16.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
-        ) {
-            CyberpunkButton(
-                onClick = {},
-                text = "Neural Link",
-                variant = CyberpunkButtonVariant.Red,
-                glitchEffect = true
-            )
-
-            CyberpunkButton(
-                onClick = {},
-                text = "Breach",
-                variant = CyberpunkButtonVariant.Green
-            )
-        }
-    }
-}

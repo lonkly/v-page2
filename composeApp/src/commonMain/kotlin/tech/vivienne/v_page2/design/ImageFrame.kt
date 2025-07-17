@@ -1,7 +1,6 @@
 package tech.vivienne.v_page2.design
 
 import coil3.compose.AsyncImage
-import org.jetbrains.compose.ui.tooling.preview.Preview
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.*
@@ -21,6 +20,7 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun CyberpunkImageFrame(

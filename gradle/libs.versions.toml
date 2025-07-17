@@ -53,7 +53,6 @@ ktor-serverTestHost = { module = "io.ktor:ktor-server-test-host-jvm", version.re
 logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
 
 
-
 orbital = { module = "com.github.skydoves:orbital", version = "0.4.0" }
 
 ##### DECOMPOSE #####
@@ -73,6 +72,7 @@ compose-material3-window = { module = "org.jetbrains.compose.material3:material3
 compose-material-icons-core = { module = "org.jetbrains.compose.material:material-icons-core", version = "1.7.3" }
 compose-material-icons-extended = { module = "org.jetbrains.compose.material:material-icons-extended", version = "1.7.3" }
 
+
 ###### KOTLINX ########
 
 kotlinx-io-core            = { group = "org.jetbrains.kotlinx", name= "kotlinx-io-core", version.ref = "kotlinx-io-core" }
@@ -90,6 +90,7 @@ haze-materials = { module = "dev.chrisbanes.haze:haze-materials", version = "1.6
 
 ##### WEBVIEW #####
 compose-webview = { module = "io.github.kevinnzou:compose-webview-multiplatform", version = "2.0.1" }
+
 
 
 [plugins]

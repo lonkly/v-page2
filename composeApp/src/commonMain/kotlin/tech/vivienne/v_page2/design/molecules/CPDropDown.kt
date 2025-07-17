@@ -1,6 +1,5 @@
 package tech.vivienne.v_page2.design.molecules
 
-import org.jetbrains.compose.ui.tooling.preview.Preview
 import tech.vivienne.v_page2.design.CyberpunkTheme
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
@@ -15,6 +14,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import org.jetbrains.compose.ui.tooling.preview.Preview
 import tech.vivienne.v_page2.design.CyberpunkShapes
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -361,7 +361,7 @@ fun CyberpunkDropdownDarkPreview() {
                 onOptionSelected = { selectedConnection = it },
                 label = "Connection Type",
                 placeholder = "Select connection"
-            )
+        )
 
             var selectedTargets by remember { mutableStateOf(listOf<String>()) }
             CyberpunkMultiSelectDropdown(

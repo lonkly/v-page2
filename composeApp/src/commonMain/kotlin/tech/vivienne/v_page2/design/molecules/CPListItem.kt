@@ -1,6 +1,5 @@
 package tech.vivienne.v_page2.design.molecules
 
-import org.jetbrains.compose.ui.tooling.preview.Preview
 import tech.vivienne.v_page2.design.CyberpunkShapes
 import tech.vivienne.v_page2.design.CyberpunkTheme
 import tech.vivienne.v_page2.design.ScanDirection
@@ -20,6 +19,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import org.jetbrains.compose.ui.tooling.preview.Preview
 
 @Composable
 fun CyberpunkListItem(
