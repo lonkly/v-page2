@@ -1,0 +1,222 @@
+package tech.vivienne.v_page2.design.atoms
+
+import tech.vivienne.v_page2.design.CyberpunkTheme
+import androidx.compose.animation.core.*
+import androidx.compose.foundation.background
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.drawBehind
+import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.geometry.Size
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.drawscope.DrawScope
+import androidx.compose.ui.graphics.drawscope.Stroke
+import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.unit.dp
+import org.jetbrains.compose.ui.tooling.preview.Preview
+import tech.vivienne.v_page2.design.CyberpunkColorScheme
+
+@Composable
+fun CyberpunkCheckbox(
+    checked: Boolean,
+    onCheckedChange: (Boolean) -> Unit,
+    modifier: Modifier = Modifier,
+    enabled: Boolean = true,
+    label: String = "",
+    labelColor: Color = CyberpunkTheme.colors.blackPrimary
+) {
+    val colors = CyberpunkTheme.colors
+    val animatedCheckProgress by animateFloatAsState(
+        targetValue = if (checked) 1f else 0f,
+        animationSpec = tween(durationMillis = 200, easing = EaseInOutCubic)
+    )
+
+    val animatedScale by animateFloatAsState(
+        targetValue = if (checked) 1.1f else 1f,
+        animationSpec = tween(durationMillis = 150, easing = EaseInOutCubic)
+    )
+
+    Row(
+        modifier = modifier
+            .clickable(enabled = enabled) {
+                onCheckedChange(!checked)
+            }
+            .padding(4.dp),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+        Box(
+            modifier = Modifier
+                .size(20.dp)
+                .background(colors.blackPrimary, RoundedCornerShape(15))
+                .drawBehind {
+                    drawCyberpunkCheckbox(
+                        colors = colors,
+                        animatedCheckProgress = animatedCheckProgress,
+                        animatedScale = animatedScale,
+                        enabled = enabled
+                    )
+                }
+        )
+
+        if (label.isNotEmpty()) {
+            Text(
+                text = label,
+                style = CyberpunkTheme.typography.bodyMedium,
+                color = if (enabled) labelColor else labelColor.copy(alpha = 0.5f),
+                fontWeight = FontWeight.Medium,
+                modifier = Modifier.padding(start = 8.dp)
+            )
+        }
+    }
+}
+
+private fun DrawScope.drawCyberpunkCheckbox(
+    colors: CyberpunkColorScheme,
+    animatedCheckProgress: Float,
+    animatedScale: Float,
+    enabled: Boolean
+) {
+    val centerX = size.width / 2
+    val centerY = size.height / 2
+    val baseRadius = 4.dp.toPx()
+    val indicatorWidth = 2.dp.toPx()
+    val indicatorHeight = 7.dp.toPx()
+
+    // Outer circle (always visible)
+    drawCircle(
+        color = if (enabled) colors.yellowPrimary else colors.yellowPrimary.copy(alpha = 0.5f),
+        radius = baseRadius,
+        center = Offset(centerX, centerY),
+        style = Stroke(width = 2.dp.toPx())
+    )
+
+    // Inner indicator line (always visible)
+    drawRect(
+        color = if (enabled) colors.yellowPrimary else colors.yellowPrimary.copy(alpha = 0.5f),
+        topLeft = Offset(centerX - indicatorWidth / 2, centerY - indicatorHeight / 2),
+        size = Size(indicatorWidth, indicatorHeight)
+    )
+
+    // Animated check state
+    if (animatedCheckProgress > 0f) {
+        val checkRadius = baseRadius * animatedScale * animatedCheckProgress
+        val checkAlpha = if (enabled) 1f else 0.5f
+
+        // Outer check circle
+        drawCircle(
+            color = colors.borderGreen.copy(alpha = checkAlpha),
+            radius = checkRadius,
+            center = Offset(centerX, centerY),
+            style = Stroke(width = 2.dp.toPx())
+        )
+
+        // Inner check indicator
+        val checkIndicatorHeight = indicatorHeight * animatedCheckProgress
+        drawRect(
+            color = colors.borderGreen.copy(alpha = checkAlpha),
+            topLeft = Offset(centerX - indicatorWidth / 2, centerY - checkIndicatorHeight / 2),
+            size = Size(indicatorWidth, checkIndicatorHeight)
+        )
+
+        // Glitch effect lines
+        if (animatedCheckProgress > 0.8f) {
+            val glitchOffset = 1.dp.toPx()
+            drawLine(
+                color = colors.neonGreen.copy(alpha = 0.7f * checkAlpha),
+                start = Offset(centerX - baseRadius - glitchOffset, centerY),
+                end = Offset(centerX + baseRadius + glitchOffset, centerY),
+                strokeWidth = 1.dp.toPx()
+            )
+        }
+    }
+}
+
+@Preview
+@Composable
+fun CyberpunkCheckboxPreview() {
+    CyberpunkTheme {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            var checked1 by remember { mutableStateOf(false) }
+            CyberpunkCheckbox(
+                checked = checked1,
+                onCheckedChange = { checked1 = it },
+                label = "Enable neural link"
+            )
+
+            var checked2 by remember { mutableStateOf(true) }
+            CyberpunkCheckbox(
+                checked = checked2,
+                onCheckedChange = { checked2 = it },
+                label = "Auto-connect to network"
+            )
+
+            var checked3 by remember { mutableStateOf(false) }
+            CyberpunkCheckbox(
+                checked = checked3,
+                onCheckedChange = { checked3 = it },
+                label = "Accept terms and conditions"
+            )
+
+            var checked4 by remember { mutableStateOf(true) }
+            CyberpunkCheckbox(
+                checked = checked4,
+                onCheckedChange = { checked4 = it },
+                label = "Disabled option",
+                enabled = false
+            )
+
+            // Checkbox without label
+            var checked5 by remember { mutableStateOf(false) }
+            CyberpunkCheckbox(
+                checked = checked5,
+                onCheckedChange = { checked5 = it }
+            )
+        }
+    }
+}
+
+@Preview
+@Composable
+fun CyberpunkCheckboxDarkPreview() {
+    CyberpunkTheme(darkTheme = true) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(16.dp),
+            verticalArrangement = Arrangement.spacedBy(16.dp)
+        ) {
+            var checked1 by remember { mutableStateOf(false) }
+            CyberpunkCheckbox(
+                checked = checked1,
+                onCheckedChange = { checked1 = it },
+                label = "Breach firewall",
+                labelColor = CyberpunkTheme.colors.redPrimary
+            )
+
+            var checked2 by remember { mutableStateOf(true) }
+            CyberpunkCheckbox(
+                checked = checked2,
+                onCheckedChange = { checked2 = it },
+                label = "Stealth mode active",
+                labelColor = CyberpunkTheme.colors.neonGreen
+            )
+
+            var checked3 by remember { mutableStateOf(false) }
+            CyberpunkCheckbox(
+                checked = checked3,
+                onCheckedChange = { checked3 = it },
+                label = "Override security protocol"
+            )
+        }
+    }
+}
