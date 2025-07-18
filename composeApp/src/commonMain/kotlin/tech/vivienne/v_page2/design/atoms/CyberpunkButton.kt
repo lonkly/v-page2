@@ -49,45 +49,68 @@ fun CyberpunkButton(
         modifier = modifier
             .clip(CyberpunkShapes.ButtonShape)
             .background(backgroundColor)
-            .border(
-                width = 3.dp,
-                color = colors.borderGreen,
-                shape = RectangleShape
-            )
             .clickable(enabled = enabled) {
                 isPressed = !isPressed
                 onClick()
             }
-            .padding(horizontal = 75.dp, vertical = 35.dp)
-            .glitchEffect(isActive = glitchEffect, intensity = 0.8f)
+            .glitchEffect(isActive = glitchEffect, intensity = 1.2f)
     ) {
-        Text(
-            text = text.uppercase(),
-            style = CyberpunkTheme.typography.labelLarge,
-            color = colors.white,
-            fontWeight = FontWeight.SemiBold,
-            modifier = Modifier.align(Alignment.Center)
-        )
-
-        // Button code indicator
-        Box(
+        // Main button content with padding
+        Row(
             modifier = Modifier
-                .align(Alignment.BottomEnd)
-                .offset(x = (-25).dp, y = (-2).dp)
-                .background(colors.yellowPrimary)
-                .border(
-                    width = 2.dp,
-                    color = colors.borderGreen,
-                    shape = RectangleShape
-                )
-                .padding(horizontal = 4.dp, vertical = 2.dp)
+                .fillMaxSize()
+                .padding(horizontal = 32.dp, vertical = 16.dp),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.Center
         ) {
             Text(
-                text = codeIndicator,
-                style = CyberpunkTheme.typography.bodyMedium.copy(fontSize = 9.sp),
-                color = colors.blackPrimary,
-                fontWeight = FontWeight.Bold
+                text = text.uppercase(),
+                style = CyberpunkTheme.typography.labelLarge.copy(
+                    fontSize = 18.sp, // 1.5rem
+                    lineHeight = 18.sp, // 1.5rem
+                    letterSpacing = 2.sp,
+                    fontWeight = FontWeight(600)
+                ),
+                color = colors.white
             )
+        }
+        
+        // Right border
+        Box(
+            modifier = Modifier
+                .align(Alignment.CenterEnd)
+                .fillMaxHeight()
+                .width(3.dp)
+                .background(colors.borderGreen)
+        )
+
+        // Button code indicator (outside for non-primary variants)
+            Box(
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .offset(x = (-12).dp)
+                    .background(colors.yellowPrimary)
+                    .padding(horizontal = 2.dp, vertical = 0.dp)
+            ) {
+                Text(
+                    text = codeIndicator,
+                    style = CyberpunkTheme.typography.bodyMedium.copy(
+                        fontSize = 7.2.sp, // 0.6rem
+                        lineHeight = 7.2.sp,
+                        fontWeight = FontWeight.Bold
+                    ),
+                    color = colors.blackPrimary
+                )
+                
+                // Left border of indicator
+                Box(
+                    modifier = Modifier
+                        .align(Alignment.CenterStart)
+                        .offset(x = (-2).dp)
+                        .fillMaxHeight()
+                        .width(2.dp)
+                        .background(colors.borderGreen)
+                )
         }
     }
 }

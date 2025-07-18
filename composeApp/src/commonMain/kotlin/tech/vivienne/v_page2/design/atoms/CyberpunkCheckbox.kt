@@ -56,6 +56,7 @@ fun CyberpunkCheckbox(
                 .drawBehind {
                     drawCyberpunkCheckbox(
                         colors = colors,
+                        checked = checked,
                         animatedCheckProgress = animatedCheckProgress,
                         animatedScale = animatedScale,
                         enabled = enabled
@@ -77,63 +78,49 @@ fun CyberpunkCheckbox(
 
 private fun DrawScope.drawCyberpunkCheckbox(
     colors: CyberpunkColorScheme,
+    checked: Boolean,
     animatedCheckProgress: Float,
     animatedScale: Float,
     enabled: Boolean
 ) {
-    val centerX = size.width / 2
-    val centerY = size.height / 2
-    val baseRadius = 4.dp.toPx()
+    // CSS-based dimensions
+    val circleSize = 8.dp.toPx()
+    val circleRadius = circleSize / 2
+    val strokeWidth = 2.dp.toPx()
     val indicatorWidth = 2.dp.toPx()
     val indicatorHeight = 7.dp.toPx()
+    
+    // Position for circle (before pseudo-element)
+    val circleLeft = 4.dp.toPx()
+    val circleTop = 5.dp.toPx()
+    val circleCenter = Offset(circleLeft + circleRadius, circleTop + circleRadius)
+    
+    // Position for vertical line (after pseudo-element)
+    val lineLeft = 9.dp.toPx()
+    val lineTop = 3.dp.toPx()
 
-    // Outer circle (always visible)
-    drawCircle(
-        color = if (enabled) colors.yellowPrimary else colors.yellowPrimary.copy(alpha = 0.5f),
-        radius = baseRadius,
-        center = Offset(centerX, centerY),
-        style = Stroke(width = 2.dp.toPx())
+    // Draw circle (before pseudo-element) - always visible
+    val circleColor = if (checked) colors.borderGreen else colors.yellowPrimary
+    val alpha = if (enabled) 1f else 0.5f
+    
+    // Bottom and side parts of circle (not top)
+    drawArc(
+        color = circleColor.copy(alpha = alpha),
+        startAngle = 45f,
+        sweepAngle = 270f,
+        useCenter = false,
+        topLeft = Offset(circleLeft, circleTop),
+        size = Size(circleSize, circleSize),
+        style = Stroke(width = strokeWidth)
     )
 
-    // Inner indicator line (always visible)
+    // Draw vertical line (after pseudo-element) - always visible
+    val lineColor = if (checked) colors.borderGreen else colors.yellowPrimary
     drawRect(
-        color = if (enabled) colors.yellowPrimary else colors.yellowPrimary.copy(alpha = 0.5f),
-        topLeft = Offset(centerX - indicatorWidth / 2, centerY - indicatorHeight / 2),
+        color = lineColor.copy(alpha = alpha),
+        topLeft = Offset(lineLeft, lineTop),
         size = Size(indicatorWidth, indicatorHeight)
     )
-
-    // Animated check state
-    if (animatedCheckProgress > 0f) {
-        val checkRadius = baseRadius * animatedScale * animatedCheckProgress
-        val checkAlpha = if (enabled) 1f else 0.5f
-
-        // Outer check circle
-        drawCircle(
-            color = colors.borderGreen.copy(alpha = checkAlpha),
-            radius = checkRadius,
-            center = Offset(centerX, centerY),
-            style = Stroke(width = 2.dp.toPx())
-        )
-
-        // Inner check indicator
-        val checkIndicatorHeight = indicatorHeight * animatedCheckProgress
-        drawRect(
-            color = colors.borderGreen.copy(alpha = checkAlpha),
-            topLeft = Offset(centerX - indicatorWidth / 2, centerY - checkIndicatorHeight / 2),
-            size = Size(indicatorWidth, checkIndicatorHeight)
-        )
-
-        // Glitch effect lines
-        if (animatedCheckProgress > 0.8f) {
-            val glitchOffset = 1.dp.toPx()
-            drawLine(
-                color = colors.neonGreen.copy(alpha = 0.7f * checkAlpha),
-                start = Offset(centerX - baseRadius - glitchOffset, centerY),
-                end = Offset(centerX + baseRadius + glitchOffset, centerY),
-                strokeWidth = 1.dp.toPx()
-            )
-        }
-    }
 }
 
 @Preview

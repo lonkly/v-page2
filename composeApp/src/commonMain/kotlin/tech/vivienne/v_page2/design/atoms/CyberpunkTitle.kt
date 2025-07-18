@@ -58,50 +58,76 @@ fun CyberpunkTitle(
                 modifier = Modifier
                     .glitchEffect(isActive = glitchEffect, intensity = 0.7f)
                     .drawBehind {
-                        // Draw the title underline
-                        val strokeWidth = underlineHeight.toPx()
-                        val y = size.height + 15.dp.toPx()
+                        // Draw the title underline (before pseudo-element)
+                        val y = size.height - 2.dp.toPx()
 
-                        // Create underline path based on level
+                        // Create underline path based on level matching CSS clip-paths
                         val underlinePath = when (level) {
                             CyberpunkTitleLevel.H1 -> Path().apply {
-                                moveTo(0f, 0f)
-                                lineTo(85f, 0f)
-                                lineTo(90f, 5f)
-                                lineTo(100f, 5f)
-                                lineTo(100f, 6f)
-                                lineTo(85f, 6f)
-                                lineTo(80f, 10f)
-                                lineTo(0f, 10f)
+                                // CSS: polygon(0px 0px, 85px 0px, 90px 5px, 100% 5px, 100% 6px, 85px 6px, 80px 10px, 0px 10px)
+                                moveTo(0f, y)
+                                lineTo(85.dp.toPx(), y)
+                                lineTo(90.dp.toPx(), y + 5.dp.toPx())
+                                lineTo(size.width, y + 5.dp.toPx())
+                                lineTo(size.width, y + 6.dp.toPx())
+                                lineTo(85.dp.toPx(), y + 6.dp.toPx())
+                                lineTo(80.dp.toPx(), y + 10.dp.toPx())
+                                lineTo(0f, y + 10.dp.toPx())
                                 close()
                             }
                             CyberpunkTitleLevel.H2 -> Path().apply {
-                                moveTo(0f, 5f)
-                                lineTo(35f, 5f)
-                                lineTo(40f, 0f)
-                                lineTo(85f, 0f)
-                                lineTo(90f, 5f)
-                                lineTo(100f, 5f)
-                                lineTo(100f, 6f)
-                                lineTo(85f, 6f)
-                                lineTo(80f, 10f)
-                                lineTo(20f, 10f)
-                                lineTo(15f, 6f)
-                                lineTo(0f, 6f)
+                                // CSS: polygon(0px 5px, 35px 5px, 40px 0px, 85px 0px, 90px 5px, 100% 5px, 100% 6px, 85px 6px, 80px 10px, 20px 10px, 15px 6px, 0px 6px)
+                                moveTo(0f, y + 5.dp.toPx())
+                                lineTo(35.dp.toPx(), y + 5.dp.toPx())
+                                lineTo(40.dp.toPx(), y)
+                                lineTo(85.dp.toPx(), y)
+                                lineTo(90.dp.toPx(), y + 5.dp.toPx())
+                                lineTo(size.width, y + 5.dp.toPx())
+                                lineTo(size.width, y + 6.dp.toPx())
+                                lineTo(85.dp.toPx(), y + 6.dp.toPx())
+                                lineTo(80.dp.toPx(), y + 10.dp.toPx())
+                                lineTo(20.dp.toPx(), y + 10.dp.toPx())
+                                lineTo(15.dp.toPx(), y + 6.dp.toPx())
+                                lineTo(0f, y + 6.dp.toPx())
                                 close()
                             }
-                            else -> Path().apply {
-                                moveTo(0f, 0f)
-                                lineTo(size.width, 0f)
-                                lineTo(size.width, strokeWidth)
-                                lineTo(0f, strokeWidth)
+                            CyberpunkTitleLevel.H3 -> Path().apply {
+                                // CSS: polygon(0px 5px, 10px 5px, 15px 0px, 40px 0px, 45px 5px, 100% 5px, 100% 6px, 31px 6px, 27px 2px, 15px 2px, 8px 10px, 0px 10px)
+                                moveTo(0f, y + 5.dp.toPx())
+                                lineTo(10.dp.toPx(), y + 5.dp.toPx())
+                                lineTo(15.dp.toPx(), y)
+                                lineTo(40.dp.toPx(), y)
+                                lineTo(45.dp.toPx(), y + 5.dp.toPx())
+                                lineTo(size.width, y + 5.dp.toPx())
+                                lineTo(size.width, y + 6.dp.toPx())
+                                lineTo(31.dp.toPx(), y + 6.dp.toPx())
+                                lineTo(27.dp.toPx(), y + 2.dp.toPx())
+                                lineTo(15.dp.toPx(), y + 2.dp.toPx())
+                                lineTo(8.dp.toPx(), y + 10.dp.toPx())
+                                lineTo(0f, y + 10.dp.toPx())
+                                close()
+                            }
+                            CyberpunkTitleLevel.H4 -> Path().apply {
+                                // CSS: polygon(0px 3px, 15px 3px, 20px 0px, 80px 0px, 85px 3px, 100% 3px, 100% 4px, 85px 4px, 80px 7px, 20px 7px, 15px 4px, 0px 4px)
+                                moveTo(0f, y + 3.dp.toPx())
+                                lineTo(15.dp.toPx(), y + 3.dp.toPx())
+                                lineTo(20.dp.toPx(), y)
+                                lineTo(80.dp.toPx(), y)
+                                lineTo(85.dp.toPx(), y + 3.dp.toPx())
+                                lineTo(size.width, y + 3.dp.toPx())
+                                lineTo(size.width, y + 4.dp.toPx())
+                                lineTo(85.dp.toPx(), y + 4.dp.toPx())
+                                lineTo(80.dp.toPx(), y + 7.dp.toPx())
+                                lineTo(20.dp.toPx(), y + 7.dp.toPx())
+                                lineTo(15.dp.toPx(), y + 4.dp.toPx())
+                                lineTo(0f, y + 4.dp.toPx())
                                 close()
                             }
                         }
 
                         drawPath(
                             path = underlinePath,
-                            color = colors.blackPrimary
+                            color = color
                         )
                     }
             )
@@ -117,8 +143,6 @@ fun CyberpunkTitle(
                 )
             }
         }
-
-        Spacer(modifier = Modifier.height(15.dp))
     }
 }
 

@@ -48,13 +48,13 @@ fun CyberpunkRadioButton(
     ) {
         Box(
             modifier = Modifier
-                .size(20.dp)
+                .size(width = 20.dp, height = 14.dp)
                 .background(colors.blackPrimary, RoundedCornerShape(15))
                 .drawBehind {
                     drawCyberpunkRadioButton(
                         colors = colors,
+                        selected = selected,
                         animatedSelection = animatedSelection,
-                        animatedScale = animatedScale,
                         enabled = enabled
                     )
                 }
@@ -74,57 +74,28 @@ fun CyberpunkRadioButton(
 
 private fun DrawScope.drawCyberpunkRadioButton(
     colors: CyberpunkColorScheme,
+    selected: Boolean,
     animatedSelection: Float,
-    animatedScale: Float,
     enabled: Boolean
 ) {
-    val centerX = size.width / 2
-    val centerY = size.height / 2
-    val baseWidth = 8.dp.toPx()
-    val baseHeight = 6.dp.toPx()
+    // CSS-based dimensions
+    val indicatorWidth = 8.dp.toPx()
+    val indicatorHeight = 6.dp.toPx()
     val alpha = if (enabled) 1f else 0.5f
+    
+    // Position based on CSS - starts at left: 2px, moves to left: 10px when checked
+    val leftPosition = 2.dp.toPx() + (8.dp.toPx() * animatedSelection)
+    val topPosition = 2.dp.toPx()
+    
+    // Color based on state
+    val indicatorColor = if (selected) colors.borderGreen else colors.yellowPrimary
 
-    // Background indicator (always visible)
+    // Draw the indicator rectangle (after pseudo-element)
     drawRect(
-        color = colors.yellowPrimary.copy(alpha = alpha),
-        topLeft = Offset(2.dp.toPx(), 2.dp.toPx()),
-        size = Size(baseWidth, baseHeight)
+        color = indicatorColor.copy(alpha = alpha),
+        topLeft = Offset(leftPosition, topPosition),
+        size = Size(indicatorWidth, indicatorHeight)
     )
-
-    // Animated selection indicator
-    if (animatedSelection > 0f) {
-        val selectionWidth = baseWidth * animatedScale
-        val selectionHeight = baseHeight * animatedScale
-        val offsetX = 2.dp.toPx() + (baseWidth * animatedSelection)
-        val offsetY = 2.dp.toPx() + (baseHeight * (1 - animatedScale) / 2)
-
-        // Main selection rectangle
-        drawRect(
-            color = colors.borderGreen.copy(alpha = alpha),
-            topLeft = Offset(offsetX, offsetY),
-            size = Size(selectionWidth, selectionHeight)
-        )
-
-        // Glitch effect
-        if (animatedSelection > 0.7f) {
-            val glitchOffset = 1.dp.toPx()
-            val glitchAlpha = (animatedSelection - 0.7f) * 3.33f // Scale from 0.7-1.0 to 0-1
-
-            // Top glitch line
-            drawRect(
-                color = colors.neonGreen.copy(alpha = glitchAlpha * alpha * 0.6f),
-                topLeft = Offset(offsetX - glitchOffset, offsetY - glitchOffset),
-                size = Size(selectionWidth + glitchOffset * 2, 1.dp.toPx())
-            )
-
-            // Bottom glitch line
-            drawRect(
-                color = colors.redPrimary.copy(alpha = glitchAlpha * alpha * 0.6f),
-                topLeft = Offset(offsetX - glitchOffset, offsetY + selectionHeight + glitchOffset),
-                size = Size(selectionWidth + glitchOffset * 2, 1.dp.toPx())
-            )
-        }
-    }
 }
 
 @Composable

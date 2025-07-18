@@ -8,19 +8,15 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.clipPath
-import androidx.compose.ui.graphics.drawscope.rotate
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import tech.vivienne.v_page2.design.CyberpunkTheme
-import kotlin.random.Random
 
 enum class ListType {
     UNORDERED,
@@ -28,21 +24,23 @@ enum class ListType {
 }
 
 @Composable
-fun CPList(
+fun CyberPunkList(
     items: List<String>,
     modifier: Modifier = Modifier,
     listType: ListType = ListType.UNORDERED,
     isGlitched: Boolean = false,
-    textStyle: TextStyle = TextStyle(fontSize = 19.sp)
+    textStyle: TextStyle = TextStyle(fontSize = 19.sp),
+    isBlackSection: Boolean = false
 ) {
     Column(modifier = modifier) {
         items.forEachIndexed { index, item ->
-            CPListItem(
+            CyberPunkListItem(
                 text = item,
                 index = index + 1,
                 listType = listType,
                 isGlitched = isGlitched && shouldGlitch(index),
                 textStyle = textStyle,
+                isBlackSection = isBlackSection,
                 modifier = Modifier.padding(vertical = 4.dp)
             )
         }
@@ -50,12 +48,13 @@ fun CPList(
 }
 
 @Composable
-private fun CPListItem(
+private fun CyberPunkListItem(
     text: String,
     index: Int,
     listType: ListType,
     isGlitched: Boolean,
     textStyle: TextStyle,
+    isBlackSection: Boolean,
     modifier: Modifier = Modifier
 ) {
     val infiniteTransition = rememberInfiniteTransition()
@@ -100,8 +99,8 @@ private fun CPListItem(
             .offset(x = if (isGlitched) offset.dp else 0.dp),
         verticalAlignment = Alignment.Top
     ) {
-        val bulletColor = CyberpunkTheme.colors.blackPrimary
-        val numberColor = CyberpunkTheme.colors.yellowPrimary
+        val bulletColor = if (isBlackSection) CyberpunkTheme.colors.yellowPrimary else CyberpunkTheme.colors.blackPrimary
+        val numberColor = if (isBlackSection) CyberpunkTheme.colors.blackPrimary else CyberpunkTheme.colors.yellowPrimary
         
         Box(
             modifier = Modifier
@@ -135,6 +134,7 @@ private fun CPListItem(
         Text(
             text = text,
             style = textStyle,
+            color = textStyle.color,
             modifier = Modifier
                 .graphicsLayer {
                     if (isGlitched) {

@@ -25,7 +25,7 @@ data class StepItem(
 )
 
 @Composable
-fun CPSteps(
+fun CyberPunkSteps(
     steps: List<StepItem>,
     modifier: Modifier = Modifier,
     isBlackSection: Boolean = false
@@ -35,6 +35,7 @@ fun CPSteps(
     val textColor = if (isBlackSection) CyberpunkTheme.colors.blackPrimary else CyberpunkTheme.colors.yellowPrimary
     val currentTextColor = if (isBlackSection) CyberpunkTheme.colors.blackPrimary else CyberpunkTheme.colors.yellowPrimary
     val lineColor = if (isBlackSection) CyberpunkTheme.colors.yellowPrimary else CyberpunkTheme.colors.purplePrimary
+    val labelColor = if (isBlackSection) CyberpunkTheme.colors.yellowPrimary else CyberpunkTheme.colors.blackPrimary
     
     BoxWithConstraints(modifier = modifier) {
         val isCompact = maxWidth < 600.dp
@@ -50,7 +51,8 @@ fun CPSteps(
                         stepNumber = index + 1,
                         circleColor = if (step.isCurrent) currentCircleColor else circleColor,
                         textColor = if (step.isCurrent) currentTextColor else textColor,
-                        lineColor = if (step.isCurrent) currentCircleColor else lineColor
+                        lineColor = if (step.isCurrent) currentCircleColor else lineColor,
+                        labelColor = labelColor
                     )
                 }
             }
@@ -68,6 +70,7 @@ fun CPSteps(
                         circleColor = if (step.isCurrent) currentCircleColor else circleColor,
                         textColor = if (step.isCurrent) currentTextColor else textColor,
                         lineColor = if (step.isCurrent) currentCircleColor else lineColor,
+                        labelColor = labelColor,
                         modifier = Modifier.weight(1f)
                     )
                 }
@@ -82,7 +85,8 @@ private fun CompactStepItem(
     stepNumber: Int,
     circleColor: Color,
     textColor: Color,
-    lineColor: Color
+    lineColor: Color,
+    labelColor: Color
 ) {
     Row(
         modifier = Modifier
@@ -113,7 +117,7 @@ private fun CompactStepItem(
             style = TextStyle(
                 fontSize = 12.sp,
                 lineHeight = 12.sp,
-                color = CyberpunkTheme.colors.blackPrimary
+                color = labelColor
             ),
             modifier = Modifier.padding(bottom = 5.dp)
         )
@@ -128,6 +132,7 @@ private fun FullStepItem(
     circleColor: Color,
     textColor: Color,
     lineColor: Color,
+    labelColor: Color,
     modifier: Modifier = Modifier
 ) {
     Box(
@@ -140,7 +145,7 @@ private fun FullStepItem(
             style = TextStyle(
                 fontSize = 12.sp,
                 lineHeight = 12.sp,
-                color = CyberpunkTheme.colors.blackPrimary
+                color = labelColor
             ),
             modifier = Modifier
                 .align(Alignment.BottomStart)

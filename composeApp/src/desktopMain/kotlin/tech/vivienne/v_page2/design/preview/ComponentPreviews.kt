@@ -1,12 +1,12 @@
 package tech.vivienne.v_page2.design.preview
 
+import androidx.compose.desktop.ui.tooling.preview.Preview
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
-import org.jetbrains.compose.ui.tooling.preview.Preview
 import tech.vivienne.v_page2.design.*
 import tech.vivienne.v_page2.design.atoms.*
 import tech.vivienne.v_page2.design.molecules.*
@@ -122,9 +122,9 @@ fun PreviewCPTitle() {
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            CyberpunkTitle(text = "Large Title")
-            CyberpunkTitle(text = "Medium Title")
-            CyberpunkTitle(text = "Small Title")
+            CyberpunkTitle(text = "Large Title", level = CyberpunkTitleLevel.H1)
+            CyberpunkTitle(text = "Medium Title", level = CyberpunkTitleLevel.H2)
+            CyberpunkTitle(text = "Small Title", level = CyberpunkTitleLevel.H3)
         }
     }
 }
@@ -139,9 +139,9 @@ fun PreviewCPCard() {
                 .padding(16.dp)
         ) {
             CyberpunkCard(modifier = Modifier.width(300.dp)) {
-                CyberpunkTitle(text = "Card Title")
+                CyberpunkTitle(text = "Card Title", level = CyberpunkTitleLevel.H2)
                 Spacer(modifier = Modifier.height(8.dp))
-                CPParagraph(text = "This is a card with cyberpunk styling.")
+                CyberPunkParagraph(text = "This is a card with cyberpunk styling.")
             }
         }
     }
@@ -157,11 +157,11 @@ fun PreviewCPParagraph() {
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            CPParagraph(
+            CyberPunkParagraph(
                 text = "Normal paragraph with standard styling.",
                 style = ParagraphStyle.NORMAL
             )
-            CPParagraph(
+            CyberPunkParagraph(
                 text = "Terminal style paragraph with monospace font.",
                 style = ParagraphStyle.INVERSE
             )
@@ -179,11 +179,11 @@ fun PreviewCPList() {
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            CPList(
+            CyberPunkList(
                 items = listOf("Item 1", "Item 2", "Item 3"),
                 listType = ListType.UNORDERED
             )
-            CPList(
+            CyberPunkList(
                 items = listOf("First", "Second", "Third"),
                 listType = ListType.ORDERED
             )
@@ -200,7 +200,7 @@ fun PreviewCPLink() {
                 .background(CyberpunkTheme.colors.yellowPrimary)
                 .padding(16.dp)
         ) {
-            CPLink(
+            CyberPunkLink(
                 text = "Click me",
                 onClick = {}
             )
@@ -219,8 +219,8 @@ fun PreviewCPSeparator() {
                 .width(300.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
-            CPSeparator()
-            CPSeparator(isGlitched = true)
+            CyberPunkSeparator()
+            CyberPunkSeparator(isGlitched = true)
         }
     }
 }
@@ -234,10 +234,10 @@ fun PreviewCPFieldset() {
                 .background(CyberpunkTheme.colors.yellowPrimary)
                 .padding(16.dp)
         ) {
-            CPFieldset {
-                CyberpunkTitle(text = "Fieldset Title")
+            CyberPunkFieldset {
+                CyberpunkTitle(text = "Fieldset Title", level = CyberpunkTitleLevel.H3)
                 Spacer(modifier = Modifier.height(8.dp))
-                CPParagraph(text = "Content inside fieldset")
+                CyberPunkParagraph(text = "Content inside fieldset")
             }
         }
     }
@@ -271,7 +271,7 @@ fun PreviewCPSection() {
                 .background(CyberpunkTheme.colors.yellowPrimary)
                 .size(400.dp, 200.dp)
         ) {
-            CPSection(
+            CyberPunkSection(
                 style = SectionStyle.YELLOW,
                 border = SectionBorder.BOTH
             ) {
@@ -279,7 +279,7 @@ fun PreviewCPSection() {
                     modifier = Modifier.fillMaxSize(),
                     contentAlignment = Alignment.Center
                 ) {
-                    CyberpunkTitle(text = "Section Content")
+                    CyberpunkTitle(text = "Section Content", level = CyberpunkTitleLevel.H2)
                 }
             }
         }

@@ -11,14 +11,12 @@ import androidx.compose.foundation.interaction.collectIsHoveredAsState
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.Text
 import androidx.compose.runtime.*
-import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.graphics.drawscope.DrawScope
-import androidx.compose.ui.graphics.drawscope.clipPath
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
@@ -31,7 +29,7 @@ data class AsideMenuItem(
 )
 
 @Composable
-fun CPAside(
+fun CyberPunkAside(
     items: List<AsideMenuItem>,
     modifier: Modifier = Modifier,
     width: Dp = 230.dp,
@@ -41,7 +39,7 @@ fun CPAside(
     val isHovered by interactionSource.collectIsHoveredAsState()
     
     val offsetX by animateDpAsState(
-        targetValue = if (isHovered) width - 5.dp else collapsedOffset,
+        targetValue = if (isHovered) 0.dp else width - collapsedOffset,
         animationSpec = tween(300),
         label = "aside_offset"
     )
@@ -116,9 +114,6 @@ private fun AsideMenuItem(
             ),
             modifier = Modifier
                 .padding(horizontal = 10.dp, vertical = 5.dp)
-                .graphicsLayer {
-                    rotationZ = 15f
-                }
         )
     }
 }

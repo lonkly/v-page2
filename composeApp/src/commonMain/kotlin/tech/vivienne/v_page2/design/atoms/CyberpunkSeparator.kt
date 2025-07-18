@@ -16,7 +16,7 @@ import androidx.compose.ui.unit.dp
 import tech.vivienne.v_page2.design.CyberpunkTheme
 
 @Composable
-fun CPSeparator(
+fun CyberPunkSeparator(
     modifier: Modifier = Modifier,
     color: Color = CyberpunkTheme.colors.blackPrimary,
     isGlitched: Boolean = false
@@ -95,10 +95,12 @@ fun CPSeparator(
 
 private fun DrawScope.drawSimpleSeparator(color: Color) {
     val path = Path().apply {
-        moveTo(0f, size.height / 2f)
-        lineTo(size.width, size.height / 2f)
-        lineTo(size.width, size.height / 2f + 1.dp.toPx())
-        lineTo(0f, size.height / 2f + 1.dp.toPx())
+        // CSS: polygon(0px 7px, 100% 7px, 100% 8px, 0px 8px)
+        // Creates a 1px line at position 7-8px in a 14px height
+        moveTo(0f, 7.dp.toPx())
+        lineTo(size.width, 7.dp.toPx())
+        lineTo(size.width, 8.dp.toPx())
+        lineTo(0f, 8.dp.toPx())
         close()
     }
     

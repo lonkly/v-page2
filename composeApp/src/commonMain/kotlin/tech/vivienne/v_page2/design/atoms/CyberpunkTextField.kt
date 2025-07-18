@@ -33,63 +33,73 @@ fun CyberpunkTextField(
     supportingText: String? = null
 ) {
     val colors = CyberpunkTheme.colors
-    val fontFamily = hackFontFamily()
+    val fontFamily = if (isPassword) hackFontFamily() else CyberpunkTheme.typography.bodyLarge.fontFamily
 
     Column(modifier = modifier) {
-        OutlinedTextField(
-            value = value,
-            onValueChange = onValueChange,
+        Box(
             modifier = Modifier
                 .fillMaxWidth()
                 .clip(CyberpunkShapes.InputFieldShape)
-                .background(colors.yellowPrimary),
-            textStyle = CyberpunkTheme.typography.bodyLarge.copy(
-                fontFamily = fontFamily,
-                fontSize = 20.sp,
-                fontWeight = FontWeight.Bold,
-                letterSpacing = if (isPassword) 2.sp else 0.sp
-            ),
-            placeholder = {
-                Text(
-                    text = placeholder,
-                    style = CyberpunkTheme.typography.bodyLarge.copy(
-                        fontFamily = fontFamily,
-                        fontSize = 20.sp,
-                        fontWeight = FontWeight.Bold
-                    ),
-                    color = colors.blackPrimary.copy(alpha = 0.6f)
+                .background(colors.blackPrimary)
+                .padding(
+                    start = 5.dp,
+                    end = 5.dp,
+                    top = 30.dp,
+                    bottom = 15.dp
                 )
-            },
-            keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
-            singleLine = singleLine,
-            maxLines = maxLines,
-            enabled = enabled,
-            isError = isError,
-            visualTransformation = if (isPassword) PasswordVisualTransformation() else VisualTransformation.None,
-            colors = OutlinedTextFieldDefaults.colors(
-                focusedTextColor = colors.blackPrimary,
-                unfocusedTextColor = colors.blackPrimary,
-                disabledTextColor = colors.blackPrimary.copy(alpha = 0.5f),
-                errorTextColor = colors.redPrimary,
-                focusedBorderColor = colors.blackPrimary,
-                unfocusedBorderColor = colors.blackPrimary,
-                disabledBorderColor = colors.blackPrimary.copy(alpha = 0.5f),
-                errorBorderColor = colors.redPrimary,
-                cursorColor = colors.blackPrimary,
-                errorCursorColor = colors.redPrimary,
-                focusedContainerColor = colors.yellowPrimary,
-                unfocusedContainerColor = colors.yellowPrimary,
-                disabledContainerColor = colors.yellowPrimary.copy(alpha = 0.5f),
-                errorContainerColor = colors.yellowPrimary
-            ),
-            shape = CyberpunkShapes.InputFieldShape
-        )
+        ) {
+            TextField(
+                value = value,
+                onValueChange = onValueChange,
+                modifier = Modifier.fillMaxWidth(),
+                textStyle = CyberpunkTheme.typography.bodyLarge.copy(
+                    fontFamily = fontFamily,
+                    fontSize = 20.sp, // 1.7rem ≈ 20.4px
+                    fontWeight = FontWeight(700),
+                    letterSpacing = if (isPassword) 2.sp else 0.sp,
+                    color = colors.yellowPrimary
+                ),
+                placeholder = {
+                    Text(
+                        text = placeholder,
+                        style = CyberpunkTheme.typography.bodyLarge.copy(
+                            fontFamily = fontFamily,
+                            fontSize = 20.sp,
+                            fontWeight = FontWeight(700)
+                        ),
+                        color = colors.yellowPrimary.copy(alpha = 0.6f)
+                    )
+                },
+                keyboardOptions = KeyboardOptions(keyboardType = keyboardType),
+                singleLine = singleLine,
+                maxLines = maxLines,
+                enabled = enabled,
+                isError = isError,
+                visualTransformation = if (isPassword) PasswordVisualTransformation() else VisualTransformation.None,
+                colors = TextFieldDefaults.colors(
+                    focusedTextColor = colors.yellowPrimary,
+                    unfocusedTextColor = colors.yellowPrimary,
+                    disabledTextColor = colors.yellowPrimary.copy(alpha = 0.5f),
+                    errorTextColor = colors.redPrimary,
+                    focusedContainerColor = colors.blackPrimary,
+                    unfocusedContainerColor = colors.blackPrimary,
+                    disabledContainerColor = colors.blackPrimary,
+                    errorContainerColor = colors.blackPrimary,
+                    cursorColor = colors.yellowPrimary,
+                    errorCursorColor = colors.redPrimary,
+                    focusedIndicatorColor = androidx.compose.ui.graphics.Color.Transparent,
+                    unfocusedIndicatorColor = androidx.compose.ui.graphics.Color.Transparent,
+                    disabledIndicatorColor = androidx.compose.ui.graphics.Color.Transparent,
+                    errorIndicatorColor = androidx.compose.ui.graphics.Color.Transparent
+                )
+            )
+        }
 
         supportingText?.let { text ->
             Text(
                 text = text,
                 style = CyberpunkTheme.typography.bodyMedium.copy(fontSize = 12.sp),
-                color = if (isError) colors.redPrimary else colors.blackPrimary.copy(alpha = 0.7f),
+                color = if (isError) colors.redPrimary else colors.yellowPrimary.copy(alpha = 0.7f),
                 modifier = Modifier.padding(start = 16.dp, top = 4.dp)
             )
         }

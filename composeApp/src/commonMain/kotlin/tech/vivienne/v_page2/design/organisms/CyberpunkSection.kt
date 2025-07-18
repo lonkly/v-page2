@@ -4,10 +4,9 @@ import androidx.compose.foundation.Canvas
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.runtime.Composable
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.graphics.drawscope.DrawScope
 import androidx.compose.ui.graphics.drawscope.clipPath
@@ -25,7 +24,7 @@ enum class SectionBorder {
 }
 
 @Composable
-fun CPSection(
+fun CyberPunkSection(
     modifier: Modifier = Modifier,
     style: SectionStyle = SectionStyle.YELLOW,
     border: SectionBorder = SectionBorder.BOTTOM,
@@ -46,12 +45,12 @@ fun CPSection(
         modifier = modifier
             .fillMaxWidth()
             .background(backgroundColor)
-            .padding(60.dp)
     ) {
         Canvas(
             modifier = Modifier
-                .fillMaxSize()
-                .offset(y = 60.dp)
+                .fillMaxWidth()
+                .height(30.dp)
+                .align(Alignment.BottomCenter)
         ) {
             when (border) {
                 SectionBorder.BOTTOM -> drawBottomBorder(borderColor)
@@ -63,7 +62,7 @@ fun CPSection(
             modifier = Modifier
                 .fillMaxWidth()
                 .height(30.dp)
-                .offset(y = (-60).dp)
+                .align(Alignment.TopCenter)
         ) {
             drawTopDecoration(borderColor)
         }

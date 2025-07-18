@@ -31,29 +31,29 @@ fun cyberpunkTypography(): Typography {
         headlineLarge = TextStyle(
             fontFamily = hackFamily,
             fontWeight = FontWeight.W200,
-            fontSize = 32.sp,
-            lineHeight = 35.sp,
-            letterSpacing = 0.sp
+            fontSize = 72.sp,
+            lineHeight = 80.sp,
+            letterSpacing = (-2).sp
         ),
         headlineMedium = TextStyle(
             fontFamily = hackFamily,
             fontWeight = FontWeight.W300,
-            fontSize = 27.sp,
-            lineHeight = 30.sp,
-            letterSpacing = 0.sp
+            fontSize = 36.sp,
+            lineHeight = 42.sp,
+            letterSpacing = (-1).sp
         ),
         headlineSmall = TextStyle(
             fontFamily = hackFamily,
             fontWeight = FontWeight.W500,
-            fontSize = 22.sp,
-            lineHeight = 26.sp,
+            fontSize = 28.sp,
+            lineHeight = 32.sp,
             letterSpacing = 0.sp
         ),
         titleLarge = TextStyle(
             fontFamily = hackFamily,
             fontWeight = FontWeight.W700,
-            fontSize = 16.sp,
-            lineHeight = 19.sp,
+            fontSize = 20.sp,
+            lineHeight = 24.sp,
             letterSpacing = 0.sp
         ),
         titleMedium = TextStyle(
@@ -67,7 +67,7 @@ fun cyberpunkTypography(): Typography {
             fontFamily = hackFamily,
             fontWeight = FontWeight.Normal,
             fontSize = 19.sp,
-            lineHeight = 19.sp,
+            lineHeight = 24.sp,
             letterSpacing = 0.sp
         ),
         bodyMedium = TextStyle(

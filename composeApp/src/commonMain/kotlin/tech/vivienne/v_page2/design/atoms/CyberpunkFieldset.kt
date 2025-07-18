@@ -10,7 +10,7 @@ import androidx.compose.ui.unit.dp
 import tech.vivienne.v_page2.design.CyberpunkTheme
 
 @Composable
-fun CPFieldset(
+fun CyberPunkFieldset(
     modifier: Modifier = Modifier,
     borderColor: Color = CyberpunkTheme.colors.purplePrimary,
     content: @Composable ColumnScope.() -> Unit

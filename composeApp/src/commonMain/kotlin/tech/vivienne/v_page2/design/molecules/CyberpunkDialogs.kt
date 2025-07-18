@@ -22,6 +22,8 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import org.jetbrains.compose.ui.tooling.preview.Preview
 import tech.vivienne.v_page2.design.CyberpunkTheme
+import tech.vivienne.v_page2.design.CyberpunkShapes
+import tech.vivienne.v_page2.design.ScanDirection
 import tech.vivienne.v_page2.design.atoms.CyberpunkButton
 import tech.vivienne.v_page2.design.atoms.CyberpunkButtonVariant
 import tech.vivienne.v_page2.design.atoms.CyberpunkLoadingSpinner
@@ -40,7 +42,7 @@ fun CyberpunkDialog(
     scanningEffect: Boolean = false,
     content: @Composable ColumnScope.() -> Unit
 ) {
-    val colors = _root_ide_package_.tech.vivienne.v_page2.design.CyberpunkTheme.colors
+    val colors = CyberpunkTheme.colors
 
     Dialog(
         onDismissRequest = onDismiss,
@@ -52,7 +54,7 @@ fun CyberpunkDialog(
         Card(
             modifier = modifier
                 .fillMaxWidth()
-                .clip(_root_ide_package_.tech.vivienne.v_page2.design.CyberpunkShapes.CardShape)
+                .clip(CyberpunkShapes.CardShape)
                 .background(colors.blackPrimary)
                 .border(
                     width = 2.dp,
@@ -62,14 +64,14 @@ fun CyberpunkDialog(
                 .glitchEffect(isActive = glitchEffect, intensity = 0.5f)
                 .scanningEffect(
                     isActive = scanningEffect,
-                    direction = _root_ide_package_.tech.vivienne.v_page2.design.ScanDirection.Horizontal,
+                    direction = ScanDirection.Horizontal,
                     color = colors.borderGreen
                 ),
             colors = CardDefaults.cardColors(
                 containerColor = colors.blackPrimary,
                 contentColor = colors.yellowPrimary
             ),
-            shape = _root_ide_package_.tech.vivienne.v_page2.design.CyberpunkShapes.CardShape
+            shape = CyberpunkShapes.CardShape
         ) {
             Column(
                 modifier = Modifier.padding(24.dp)
@@ -95,7 +97,7 @@ fun CyberpunkDialog(
                         title?.let { titleText ->
                             Text(
                                 text = titleText,
-                                style = _root_ide_package_.tech.vivienne.v_page2.design.CyberpunkTheme.typography.titleMedium,
+                                style = CyberpunkTheme.typography.titleMedium,
                                 color = colors.yellowPrimary,
                                 fontWeight = FontWeight.Bold
                             )
@@ -134,8 +136,8 @@ fun CyberpunkConfirmationDialog(
     ) {
         Text(
             text = message,
-            style = _root_ide_package_.tech.vivienne.v_page2.design.CyberpunkTheme.typography.bodyMedium,
-            color = _root_ide_package_.tech.vivienne.v_page2.design.CyberpunkTheme.colors.yellowPrimary,
+            style = CyberpunkTheme.typography.bodyMedium,
+            color = CyberpunkTheme.colors.yellowPrimary,
             lineHeight = 20.sp,
             modifier = Modifier.padding(bottom = 24.dp)
         )
@@ -245,7 +247,7 @@ fun CyberpunkLoadingDialog(
                 Icon(
                     imageVector = iconVector,
                     contentDescription = null,
-                    tint = _root_ide_package_.tech.vivienne.v_page2.design.CyberpunkTheme.colors.borderGreen,
+                    tint = CyberpunkTheme.colors.borderGreen,
                     modifier = Modifier
                         .size(48.dp)
                         .padding(bottom = 16.dp)
@@ -254,14 +256,14 @@ fun CyberpunkLoadingDialog(
 
             CyberpunkLoadingSpinner(
                 size = 60.dp,
-                color = _root_ide_package_.tech.vivienne.v_page2.design.CyberpunkTheme.colors.borderGreen,
+                color = CyberpunkTheme.colors.borderGreen,
                 modifier = Modifier.padding(bottom = 16.dp)
             )
 
             Text(
                 text = message,
-                style = _root_ide_package_.tech.vivienne.v_page2.design.CyberpunkTheme.typography.bodyMedium,
-                color = _root_ide_package_.tech.vivienne.v_page2.design.CyberpunkTheme.colors.yellowPrimary,
+                style = CyberpunkTheme.typography.bodyMedium,
+                color = CyberpunkTheme.colors.yellowPrimary,
                 textAlign = TextAlign.Center,
                 modifier = Modifier.padding(bottom = 16.dp)
             )
@@ -280,8 +282,8 @@ fun CyberpunkLoadingDialog(
 
                 Text(
                     text = "${(progressValue * 100).toInt()}%",
-                    style = _root_ide_package_.tech.vivienne.v_page2.design.CyberpunkTheme.typography.bodyMedium,
-                    color = _root_ide_package_.tech.vivienne.v_page2.design.CyberpunkTheme.colors.borderGreen,
+                    style = CyberpunkTheme.typography.bodyMedium,
+                    color = CyberpunkTheme.colors.borderGreen,
                     modifier = Modifier.padding(top = 8.dp)
                 )
             }
@@ -310,8 +312,8 @@ fun CyberpunkErrorDialog(
     ) {
         Text(
             text = message,
-            style = _root_ide_package_.tech.vivienne.v_page2.design.CyberpunkTheme.typography.bodyMedium,
-            color = _root_ide_package_.tech.vivienne.v_page2.design.CyberpunkTheme.colors.redPrimary,
+            style = CyberpunkTheme.typography.bodyMedium,
+            color = CyberpunkTheme.colors.redPrimary,
             lineHeight = 20.sp,
             modifier = Modifier.padding(bottom = 16.dp)
         )
@@ -332,13 +334,13 @@ fun CyberpunkErrorDialog(
                         .fillMaxWidth()
                         .padding(bottom = 16.dp),
                     colors = CardDefaults.cardColors(
-                        containerColor = _root_ide_package_.tech.vivienne.v_page2.design.CyberpunkTheme.colors.blackPrimary.copy(alpha = 0.5f)
+                        containerColor = CyberpunkTheme.colors.blackPrimary.copy(alpha = 0.5f)
                     )
                 ) {
                     Text(
                         text = detailsText,
-                        style = _root_ide_package_.tech.vivienne.v_page2.design.CyberpunkTheme.typography.bodyMedium.copy(fontSize = 12.sp),
-                        color = _root_ide_package_.tech.vivienne.v_page2.design.CyberpunkTheme.colors.yellowPrimary.copy(alpha = 0.8f),
+                        style = CyberpunkTheme.typography.bodyMedium.copy(fontSize = 12.sp),
+                        color = CyberpunkTheme.colors.yellowPrimary.copy(alpha = 0.8f),
                         modifier = Modifier.padding(12.dp)
                     )
                 }
@@ -392,8 +394,8 @@ fun CyberpunkSuccessDialog(
     ) {
         Text(
             text = message,
-            style = _root_ide_package_.tech.vivienne.v_page2.design.CyberpunkTheme.typography.bodyMedium,
-            color = _root_ide_package_.tech.vivienne.v_page2.design.CyberpunkTheme.colors.greenPrimary,
+            style = CyberpunkTheme.typography.bodyMedium,
+            color = CyberpunkTheme.colors.greenPrimary,
             lineHeight = 20.sp,
             modifier = Modifier.padding(bottom = 24.dp)
         )
@@ -431,13 +433,13 @@ fun CyberpunkSuccessDialog(
 @Preview
 @Composable
 fun CyberpunkDialogPreview() {
-    _root_ide_package_.tech.vivienne.v_page2.design.CyberpunkTheme {
+    CyberpunkTheme {
         var showDialog by remember { mutableStateOf(true) }
 
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(_root_ide_package_.tech.vivienne.v_page2.design.CyberpunkTheme.colors.yellowPrimary),
+                .background(CyberpunkTheme.colors.yellowPrimary),
             contentAlignment = Alignment.Center
         ) {
             CyberpunkButton(
@@ -464,13 +466,13 @@ fun CyberpunkDialogPreview() {
 @Preview
 @Composable
 fun CyberpunkInputDialogPreview() {
-    _root_ide_package_.tech.vivienne.v_page2.design.CyberpunkTheme {
+    CyberpunkTheme {
         var showDialog by remember { mutableStateOf(true) }
 
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(_root_ide_package_.tech.vivienne.v_page2.design.CyberpunkTheme.colors.yellowPrimary),
+                .background(CyberpunkTheme.colors.yellowPrimary),
             contentAlignment = Alignment.Center
         ) {
             CyberpunkButton(
@@ -504,14 +506,14 @@ fun CyberpunkInputDialogPreview() {
 @Preview
 @Composable
 fun CyberpunkLoadingDialogPreview() {
-    _root_ide_package_.tech.vivienne.v_page2.design.CyberpunkTheme {
+    CyberpunkTheme {
         var showDialog by remember { mutableStateOf(true) }
         var progress by remember { mutableStateOf(0.65f) }
 
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(_root_ide_package_.tech.vivienne.v_page2.design.CyberpunkTheme.colors.yellowPrimary),
+                .background(CyberpunkTheme.colors.yellowPrimary),
             contentAlignment = Alignment.Center
         ) {
             CyberpunkButton(
@@ -534,13 +536,13 @@ fun CyberpunkLoadingDialogPreview() {
 @Preview
 @Composable
 fun CyberpunkErrorDialogPreview() {
-    _root_ide_package_.tech.vivienne.v_page2.design.CyberpunkTheme {
+    CyberpunkTheme {
         var showDialog by remember { mutableStateOf(true) }
 
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(_root_ide_package_.tech.vivienne.v_page2.design.CyberpunkTheme.colors.yellowPrimary),
+                .background(CyberpunkTheme.colors.yellowPrimary),
             contentAlignment = Alignment.Center
         ) {
             CyberpunkButton(
@@ -568,13 +570,13 @@ fun CyberpunkErrorDialogPreview() {
 @Preview
 @Composable
 fun CyberpunkDialogDarkPreview() {
-    _root_ide_package_.tech.vivienne.v_page2.design.CyberpunkTheme(darkTheme = true) {
+    CyberpunkTheme(darkTheme = true) {
         var showDialog by remember { mutableStateOf(true) }
 
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(_root_ide_package_.tech.vivienne.v_page2.design.CyberpunkTheme.colors.blackPrimary),
+                .background(CyberpunkTheme.colors.blackPrimary),
             contentAlignment = Alignment.Center
         ) {
             CyberpunkButton(

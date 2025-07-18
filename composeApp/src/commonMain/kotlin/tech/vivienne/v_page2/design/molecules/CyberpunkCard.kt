@@ -2,6 +2,7 @@ package tech.vivienne.v_page2.design.molecules
 
 import tech.vivienne.v_page2.design.atoms.CyberpunkButton
 import tech.vivienne.v_page2.design.atoms.CyberpunkButtonVariant
+import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -18,7 +19,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import org.jetbrains.compose.ui.tooling.preview.Preview
-import tech.vivienne.v_page2.design.scanningEffect
+import tech.vivienne.v_page2.design.*
 
 @Composable
 fun CyberpunkCard(
@@ -32,20 +33,13 @@ fun CyberpunkCard(
     footerContent: @Composable (RowScope.() -> Unit)? = null,
     content: @Composable ColumnScope.() -> Unit
 ) {
-    val colors = _root_ide_package_.tech.vivienne.v_page2.design.CyberpunkTheme.colors
+    val colors = CyberpunkTheme.colors
     val backgroundColor = if (darkVariant) colors.blackPrimary else colors.yellowPrimary
     val contentColor = if (darkVariant) colors.yellowPrimary else colors.blackPrimary
     val borderColor = colors.borderGreen
 
     Card(
         modifier = modifier
-            .clip(_root_ide_package_.tech.vivienne.v_page2.design.CyberpunkShapes.CardShape)
-            .background(backgroundColor)
-            .border(
-                width = 2.dp,
-                color = borderColor,
-                shape = RectangleShape
-            )
             .let { mod ->
                 if (clickable && onClick != null) {
                     mod.clickable { onClick() }
@@ -55,7 +49,7 @@ fun CyberpunkCard(
             }
             .scanningEffect(
                 isActive = scanningEffect,
-                direction = _root_ide_package_.tech.vivienne.v_page2.design.ScanDirection.Horizontal,
+                direction = ScanDirection.Horizontal,
                 color = borderColor
             ),
         colors = CardDefaults.cardColors(
@@ -65,7 +59,8 @@ fun CyberpunkCard(
         elevation = CardDefaults.cardElevation(
             defaultElevation = if (elevated) 8.dp else 0.dp
         ),
-        shape = _root_ide_package_.tech.vivienne.v_page2.design.CyberpunkShapes.CardShape
+        shape = RectangleShape,
+        border = BorderStroke(2.dp, borderColor)
     ) {
         Column {
             // Header
@@ -90,7 +85,8 @@ fun CyberpunkCard(
                 modifier = Modifier.padding(16.dp)
             ) {
                 CompositionLocalProvider(
-                    LocalContentColor provides contentColor
+                    LocalContentColor provides contentColor,
+                    LocalTextStyle provides CyberpunkTheme.typography.bodyMedium
                 ) {
                     content()
                 }
@@ -121,14 +117,14 @@ fun CyberpunkStatusCard(
     title: String,
     status: String,
     modifier: Modifier = Modifier,
-    statusColor: Color = _root_ide_package_.tech.vivienne.v_page2.design.CyberpunkTheme.colors.greenPrimary,
+    statusColor: Color = CyberpunkTheme.colors.greenPrimary,
     description: String? = null,
     icon: @Composable (() -> Unit)? = null,
     actions: @Composable (RowScope.() -> Unit)? = null,
     darkVariant: Boolean = false,
     isActive: Boolean = true
 ) {
-    val colors = _root_ide_package_.tech.vivienne.v_page2.design.CyberpunkTheme.colors
+    val colors = CyberpunkTheme.colors
 
     CyberpunkCard(
         modifier = modifier,
@@ -160,7 +156,7 @@ fun CyberpunkStatusCard(
 
                 Text(
                     text = title,
-                    style = _root_ide_package_.tech.vivienne.v_page2.design.CyberpunkTheme.typography.titleMedium,
+                    style = CyberpunkTheme.typography.titleMedium,
                     fontWeight = FontWeight.Medium
                 )
             }
@@ -175,7 +171,7 @@ fun CyberpunkStatusCard(
             ) {
                 Text(
                     text = status,
-                    style = _root_ide_package_.tech.vivienne.v_page2.design.CyberpunkTheme.typography.bodyMedium.copy(fontSize = 12.sp),
+                    style = CyberpunkTheme.typography.bodyMedium.copy(fontSize = 12.sp),
                     color = colors.white,
                     fontWeight = FontWeight.Bold
                 )
@@ -186,7 +182,7 @@ fun CyberpunkStatusCard(
         description?.let { desc ->
             Text(
                 text = desc,
-                style = _root_ide_package_.tech.vivienne.v_page2.design.CyberpunkTheme.typography.bodyMedium,
+                style = CyberpunkTheme.typography.bodyMedium,
                 modifier = Modifier.padding(top = 8.dp)
             )
         }
@@ -201,10 +197,10 @@ fun CyberpunkMetricCard(
     modifier: Modifier = Modifier,
     trend: CyberpunkTrend? = null,
     description: String? = null,
-    color: Color = _root_ide_package_.tech.vivienne.v_page2.design.CyberpunkTheme.colors.borderGreen,
+    color: Color = CyberpunkTheme.colors.borderGreen,
     darkVariant: Boolean = false
 ) {
-    val colors = _root_ide_package_.tech.vivienne.v_page2.design.CyberpunkTheme.colors
+    val colors = CyberpunkTheme.colors
 
     CyberpunkCard(
         modifier = modifier,
@@ -218,7 +214,7 @@ fun CyberpunkMetricCard(
             Column(modifier = Modifier.weight(1f)) {
                 Text(
                     text = title,
-                    style = _root_ide_package_.tech.vivienne.v_page2.design.CyberpunkTheme.typography.bodyMedium,
+                    style = CyberpunkTheme.typography.bodyMedium,
                     fontWeight = FontWeight.Medium
                 )
 
@@ -228,14 +224,14 @@ fun CyberpunkMetricCard(
                 ) {
                     Text(
                         text = value,
-                        style = _root_ide_package_.tech.vivienne.v_page2.design.CyberpunkTheme.typography.headlineMedium,
+                        style = CyberpunkTheme.typography.headlineMedium,
                         color = color,
                         fontWeight = FontWeight.Bold
                     )
 
                     Text(
                         text = unit,
-                        style = _root_ide_package_.tech.vivienne.v_page2.design.CyberpunkTheme.typography.bodyMedium,
+                        style = CyberpunkTheme.typography.bodyMedium,
                         color = color.copy(alpha = 0.7f),
                         modifier = Modifier.padding(start = 4.dp, bottom = 2.dp)
                     )
@@ -244,7 +240,7 @@ fun CyberpunkMetricCard(
                 description?.let { desc ->
                     Text(
                         text = desc,
-                        style = _root_ide_package_.tech.vivienne.v_page2.design.CyberpunkTheme.typography.bodyMedium.copy(fontSize = 12.sp),
+                        style = CyberpunkTheme.typography.bodyMedium.copy(fontSize = 12.sp),
                         color = LocalContentColor.current.copy(alpha = 0.7f),
                         modifier = Modifier.padding(top = 4.dp)
                     )
@@ -263,14 +259,14 @@ fun CyberpunkMetricCard(
                 ) {
                     Text(
                         text = "${if (trendData.direction == CyberpunkTrendDirection.Up) "+" else ""}${trendData.percentage}%",
-                        style = _root_ide_package_.tech.vivienne.v_page2.design.CyberpunkTheme.typography.bodyMedium,
+                        style = CyberpunkTheme.typography.bodyMedium,
                         color = trendColor,
                         fontWeight = FontWeight.Bold
                     )
 
                     Text(
                         text = trendData.period,
-                        style = _root_ide_package_.tech.vivienne.v_page2.design.CyberpunkTheme.typography.bodyMedium.copy(fontSize = 10.sp),
+                        style = CyberpunkTheme.typography.bodyMedium.copy(fontSize = 10.sp),
                         color = LocalContentColor.current.copy(alpha = 0.5f)
                     )
                 }
@@ -292,7 +288,7 @@ fun CyberpunkActionCard(
     darkVariant: Boolean = false,
     urgent: Boolean = false
 ) {
-    val colors = _root_ide_package_.tech.vivienne.v_page2.design.CyberpunkTheme.colors
+    val colors = CyberpunkTheme.colors
 
     CyberpunkCard(
         modifier = modifier,
@@ -325,7 +321,7 @@ fun CyberpunkActionCard(
 
                 Text(
                     text = title,
-                    style = _root_ide_package_.tech.vivienne.v_page2.design.CyberpunkTheme.typography.titleMedium,
+                    style = CyberpunkTheme.typography.titleMedium,
                     fontWeight = FontWeight.Medium
                 )
             }
@@ -341,7 +337,7 @@ fun CyberpunkActionCard(
                 ) {
                     Text(
                         text = "URGENT",
-                        style = _root_ide_package_.tech.vivienne.v_page2.design.CyberpunkTheme.typography.bodyMedium.copy(fontSize = 10.sp),
+                        style = CyberpunkTheme.typography.bodyMedium.copy(fontSize = 10.sp),
                         color = colors.white,
                         fontWeight = FontWeight.Bold
                     )
@@ -372,7 +368,7 @@ fun CyberpunkActionCard(
     ) {
         Text(
             text = description,
-            style = _root_ide_package_.tech.vivienne.v_page2.design.CyberpunkTheme.typography.bodyMedium,
+            style = CyberpunkTheme.typography.bodyMedium,
             lineHeight = 20.sp
         )
     }
@@ -391,7 +387,7 @@ enum class CyberpunkTrendDirection {
 @Preview
 @Composable
 fun CyberpunkCardPreview() {
-    _root_ide_package_.tech.vivienne.v_page2.design.CyberpunkTheme {
+    CyberpunkTheme {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -404,18 +400,18 @@ fun CyberpunkCardPreview() {
                 headerContent = {
                     Text(
                         text = "System Status",
-                        style = _root_ide_package_.tech.vivienne.v_page2.design.CyberpunkTheme.typography.titleMedium
+                        style = CyberpunkTheme.typography.titleMedium
                     )
                     Text(
                         text = "Online",
-                        style = _root_ide_package_.tech.vivienne.v_page2.design.CyberpunkTheme.typography.bodyMedium,
-                        color = _root_ide_package_.tech.vivienne.v_page2.design.CyberpunkTheme.colors.greenPrimary
+                        style = CyberpunkTheme.typography.bodyMedium,
+                        color = CyberpunkTheme.colors.greenPrimary
                     )
                 }
             ) {
                 Text(
                     text = "All systems operational. Neural link established and functioning within normal parameters.",
-                    style = _root_ide_package_.tech.vivienne.v_page2.design.CyberpunkTheme.typography.bodyMedium
+                    style = CyberpunkTheme.typography.bodyMedium
                 )
             }
 
@@ -424,12 +420,12 @@ fun CyberpunkCardPreview() {
                 status = "ACTIVE",
                 description = "Connection established with 98% stability",
                 darkVariant = true,
-                statusColor = _root_ide_package_.tech.vivienne.v_page2.design.CyberpunkTheme.colors.greenPrimary,
+                statusColor = CyberpunkTheme.colors.greenPrimary,
                 icon = {
                     Box(
                         modifier = Modifier
                             .fillMaxSize()
-                            .background(_root_ide_package_.tech.vivienne.v_page2.design.CyberpunkTheme.colors.greenPrimary)
+                            .background(CyberpunkTheme.colors.greenPrimary)
                     )
                 },
                 actions = {
@@ -454,7 +450,7 @@ fun CyberpunkCardPreview() {
                         percentage = 12.3f,
                         period = "1h"
                     ),
-                    color = _root_ide_package_.tech.vivienne.v_page2.design.CyberpunkTheme.colors.orangePrimary,
+                    color = CyberpunkTheme.colors.orangePrimary,
                     modifier = Modifier.weight(1f)
                 )
 
@@ -467,7 +463,7 @@ fun CyberpunkCardPreview() {
                         percentage = -5.7f,
                         period = "1h"
                     ),
-                    color = _root_ide_package_.tech.vivienne.v_page2.design.CyberpunkTheme.colors.bluePrimary,
+                    color = CyberpunkTheme.colors.bluePrimary,
                     modifier = Modifier.weight(1f)
                 )
             }
@@ -478,7 +474,7 @@ fun CyberpunkCardPreview() {
 @Preview
 @Composable
 fun CyberpunkCardDarkPreview() {
-    _root_ide_package_.tech.vivienne.v_page2.design.CyberpunkTheme(darkTheme = true) {
+    CyberpunkTheme(darkTheme = true) {
         Column(
             modifier = Modifier
                 .fillMaxWidth()
@@ -497,7 +493,7 @@ fun CyberpunkCardDarkPreview() {
                     Box(
                         modifier = Modifier
                             .fillMaxSize()
-                            .background(_root_ide_package_.tech.vivienne.v_page2.design.CyberpunkTheme.colors.redPrimary)
+                            .background(CyberpunkTheme.colors.redPrimary)
                     )
                 }
             )
@@ -506,13 +502,13 @@ fun CyberpunkCardDarkPreview() {
                 title = "Hack Progress",
                 status = "IN PROGRESS",
                 description = "Breaking through ICE layer 3 of 5",
-                statusColor = _root_ide_package_.tech.vivienne.v_page2.design.CyberpunkTheme.colors.orangePrimary,
+                statusColor = CyberpunkTheme.colors.orangePrimary,
                 isActive = true,
                 icon = {
                     Box(
                         modifier = Modifier
                             .fillMaxSize()
-                            .background(_root_ide_package_.tech.vivienne.v_page2.design.CyberpunkTheme.colors.orangePrimary)
+                            .background(CyberpunkTheme.colors.orangePrimary)
                     )
                 }
             )

@@ -24,20 +24,20 @@ fun CPButtonPreview() {
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            CPButton(
+            CyberpunkButton(
                 text = "Primary Button",
                 onClick = {},
-                style = ButtonStyle.PRIMARY
+                variant = CyberpunkButtonVariant.Red
             )
-            CPButton(
+            CyberpunkButton(
                 text = "Secondary Button",
                 onClick = {},
-                style = ButtonStyle.SECONDARY
+                variant = CyberpunkButtonVariant.Green
             )
-            CPButton(
+            CyberpunkButton(
                 text = "Danger Button",
                 onClick = {},
-                style = ButtonStyle.DANGER
+                variant = CyberpunkButtonVariant.Purple
             )
         }
     }
@@ -54,15 +54,15 @@ fun CPTextFieldPreview() {
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            CPTextField(
+            CyberpunkTextField(
                 value = text,
                 onValueChange = { text = it },
-                label = "Username"
+                placeholder = "Username"
             )
-            CPTextField(
+            CyberpunkTextField(
                 value = text,
                 onValueChange = { text = it },
-                label = "Password",
+                placeholder = "Password",
                 isPassword = true
             )
         }
@@ -79,7 +79,7 @@ fun CPCheckboxPreview() {
                 .background(CyberpunkTheme.colors.yellowPrimary)
                 .padding(16.dp)
         ) {
-            CPCheckbox(
+            CyberpunkCheckbox(
                 checked = checked,
                 onCheckedChange = { checked = it },
                 label = "Accept terms and conditions"
@@ -98,17 +98,17 @@ fun CPTitlePreview() {
                 .padding(16.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
-            CPTitle(
+            CyberpunkTitle(
                 text = "Large Title",
-                size = TitleSize.LARGE
+                level = CyberpunkTitleLevel.H1
             )
-            CPTitle(
+            CyberpunkTitle(
                 text = "Medium Title",
-                size = TitleSize.MEDIUM
+                level = CyberpunkTitleLevel.H2
             )
-            CPTitle(
+            CyberpunkTitle(
                 text = "Small Title", 
-                size = TitleSize.SMALL
+                level = CyberpunkTitleLevel.H3
             )
         }
     }
@@ -123,15 +123,15 @@ fun CPCardPreview() {
                 .background(CyberpunkTheme.colors.yellowPrimary)
                 .padding(16.dp)
         ) {
-            CPCard(
+            CyberpunkCard(
                 modifier = Modifier.width(300.dp)
             ) {
-                CPTitle(
+                CyberpunkTitle(
                     text = "Card Title",
-                    size = TitleSize.SMALL
+                    level = CyberpunkTitleLevel.H3
                 )
                 Spacer(modifier = Modifier.height(8.dp))
-                CPParagraph(
+                CyberPunkParagraph(
                     text = "This is a card with some content inside. It has a nice cyberpunk style border."
                 )
             }
@@ -151,12 +151,26 @@ fun CPDialogPreview() {
             contentAlignment = Alignment.Center
         ) {
             if (showDialog) {
-                CPAlertDialog(
-                    title = "Warning",
-                    message = "This is a cyberpunk styled alert dialog",
+                CyberpunkDialog(
                     onDismiss = { showDialog = false },
-                    onConfirm = { showDialog = false }
-                )
+                    title = "Warning"
+                ) {
+                    CyberPunkParagraph(
+                        text = "This is a cyberpunk styled dialog",
+                        style = ParagraphStyle.NORMAL
+                    )
+                    Spacer(modifier = Modifier.height(16.dp))
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.End
+                    ) {
+                        CyberpunkButton(
+                            text = "OK",
+                            onClick = { showDialog = false },
+                            variant = CyberpunkButtonVariant.Green
+                        )
+                    }
+                }
             }
         }
     }
@@ -179,58 +193,58 @@ fun AllComponentsPreview() {
                 verticalArrangement = Arrangement.spacedBy(16.dp)
             ) {
                 // Atoms
-                CPTitle(text = "Cyberpunk Components", size = TitleSize.LARGE)
-                
-                CPSeparator()
-                
-                CPTitle(text = "Atoms", size = TitleSize.MEDIUM)
-                
-                CPButton(text = "Primary Button", onClick = {})
+                CyberpunkTitle(text = "Cyberpunk Components", level = CyberpunkTitleLevel.H2)
+
+                CyberPunkSeparator()
+
+                CyberpunkTitle(text = "Atoms", level = CyberpunkTitleLevel.H2)
+
+                CyberpunkButton(text = "Primary Button", onClick = {}, variant = CyberpunkButtonVariant.Red)
                 
                 var textValue by remember { mutableStateOf("") }
-                CPTextField(
+                CyberpunkTextField(
                     value = textValue,
                     onValueChange = { textValue = it },
-                    label = "Input Field"
+                    placeholder = "Input Field"
                 )
                 
                 var checked by remember { mutableStateOf(false) }
-                CPCheckbox(
+                CyberpunkCheckbox(
                     checked = checked,
                     onCheckedChange = { checked = it },
                     label = "Checkbox"
                 )
                 
                 var selected by remember { mutableStateOf(false) }
-                CPRadioButton(
+                CyberpunkRadioButton(
                     selected = selected,
                     onClick = { selected = !selected },
                     label = "Radio Button"
                 )
-                
-                CPLink(
+
+                CyberPunkLink(
                     text = "Clickable Link",
                     onClick = {}
                 )
-                
-                CPSeparator(isGlitched = true)
+
+                CyberPunkSeparator(isGlitched = true)
                 
                 // Molecules
-                CPTitle(text = "Molecules", size = TitleSize.MEDIUM)
-                
-                CPCard {
-                    CPParagraph(
+                CyberpunkTitle(text = "Molecules", level = CyberpunkTitleLevel.H2)
+
+                CyberpunkCard {
+                    CyberPunkParagraph(
                         text = "This is a card component with a paragraph inside."
                     )
                 }
                 
-                CPList(
+                CyberPunkList(
                     items = listOf("Item 1", "Item 2", "Item 3"),
                     listType = ListType.UNORDERED
                 )
                 
                 var selectedOption by remember { mutableStateOf("") }
-                CPDropDown(
+                CyberpunkDropdown(
                     options = listOf("Option 1", "Option 2", "Option 3"),
                     selectedOption = selectedOption,
                     onOptionSelected = { selectedOption = it },
@@ -238,13 +252,13 @@ fun AllComponentsPreview() {
                 )
                 
                 // Organisms
-                CPTitle(text = "Organisms", size = TitleSize.MEDIUM)
-                
-                CPSection(
-                    style = SectionStyle.RED,
-                    border = SectionBorder.TOP
+                CyberpunkTitle(text = "Organisms", level = CyberpunkTitleLevel.H2)
+
+                CyberPunkSection(
+                    style = SectionStyle.BLACK,
+                    border = SectionBorder.BOTH
                 ) {
-                    CPParagraph(
+                    CyberPunkParagraph(
                         text = "This is a section with red styling and top border."
                     )
                 }

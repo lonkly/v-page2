@@ -80,29 +80,62 @@ fun Modifier.glitchEffect(
 ): Modifier {
     val infiniteTransition = rememberInfiniteTransition()
 
-    val skewX by infiniteTransition.animateFloat(
+    // Create a more subtle, digital glitch effect
+    val glitchOffset by infiniteTransition.animateFloat(
         initialValue = 0f,
-        targetValue = if (isActive) 20f * intensity else 0f,
+        targetValue = 0f,
         animationSpec = infiniteRepeatable(
-            animation = tween(300, easing = FastOutSlowInEasing),
-            repeatMode = RepeatMode.Reverse
+            animation = keyframes {
+                durationMillis = 3000
+                0f at 0
+                0f at 2700
+                2f * intensity at 2750
+                -1f * intensity at 2800
+                0f at 2850
+                -2f * intensity at 2900
+                0f at 3000
+            },
+            repeatMode = RepeatMode.Restart
         )
     )
 
-    val offsetX by infiniteTransition.animateFloat(
+    val chromaOffset by infiniteTransition.animateFloat(
         initialValue = 0f,
-        targetValue = if (isActive) 5f * intensity else 0f,
+        targetValue = 0f,
         animationSpec = infiniteRepeatable(
-            animation = tween(200, easing = LinearEasing),
-            repeatMode = RepeatMode.Reverse
+            animation = keyframes {
+                durationMillis = 4000
+                0f at 0
+                0f at 3700
+                1f * intensity at 3750
+                -0.5f * intensity at 3800
+                0f at 3850
+            },
+            repeatMode = RepeatMode.Restart
         )
     )
 
     return if (isActive) {
-        this.graphicsLayer(
-            scaleX = 1f + (sin(skewX) * 0.1f),
-            translationX = offsetX,
-            rotationZ = skewX * 0.1f
+        this.drawWithContent {
+            // Draw main content
+            drawContent()
+            
+            // Add subtle chromatic aberration effect
+            if (chromaOffset != 0f) {
+                drawContent()
+                drawRect(
+                    color = Color.Red.copy(alpha = 0.1f),
+                    topLeft = Offset(chromaOffset.dp.toPx(), 0f),
+                    size = size
+                )
+                drawRect(
+                    color = Color.Cyan.copy(alpha = 0.1f),
+                    topLeft = Offset(-chromaOffset.dp.toPx(), 0f),
+                    size = size
+                )
+            }
+        }.graphicsLayer(
+            translationX = glitchOffset
         )
     } else {
         this
