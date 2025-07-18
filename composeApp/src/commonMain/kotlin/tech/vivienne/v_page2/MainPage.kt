@@ -593,7 +593,7 @@ fun MainPage() {
             // Track expanded state for mobile menu
             var mobileMenuExpanded by remember { mutableStateOf(false) }
             
-            // Background click handler for mobile
+            // Background click handler for mobile - MUST be before menus in z-order
             if (isMobile && mobileMenuExpanded) {
                 Box(
                     modifier = Modifier

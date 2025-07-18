@@ -14,7 +14,6 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
-import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.graphics.drawscope.DrawScope
@@ -47,7 +46,7 @@ fun CyberPunkAside(
     val shouldExpand = if (isMobile) internalExpanded else isHovered
     
     val offsetX by animateDpAsState(
-        targetValue = if (shouldExpand) 20.dp else width - collapsedOffset,
+        targetValue = if (shouldExpand) 0.dp else width - collapsedOffset,
         animationSpec = tween(300),
         label = "aside_offset"
     )
@@ -56,11 +55,6 @@ fun CyberPunkAside(
         modifier = modifier
             .offset(x = offsetX)
             .width(width)
-            .graphicsLayer {
-                // Ensure the menu is above other content
-                this.shadowElevation = 8.dp.toPx()
-                this.clip = false
-            }
             .then(
                 if (isMobile) {
                     Modifier.clickable(
@@ -77,8 +71,7 @@ fun CyberPunkAside(
             )
     ) {
         Column(
-            modifier = Modifier
-                .fillMaxWidth(),
+            modifier = Modifier.fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(3.dp)
         ) {
             items.forEach { item ->
@@ -137,15 +130,16 @@ private fun AsideMenuItem(
             .clip(AsideMenuItemShape())
             .background(backgroundColor)
             .then(
-                // Always make clickable on desktop, only restrict on mobile when collapsed
-                Modifier.clickable(
-                    interactionSource = interactionSource,
-                    indication = null,
-                    enabled = !isMobile || isParentExpanded,
-                    onClick = {
-                        onItemClick()
-                    }
-                )
+                // Only make clickable when expanded on mobile, always clickable on desktop
+                if (!isMobile || isParentExpanded) {
+                    Modifier.clickable(
+                        interactionSource = interactionSource,
+                        indication = null,
+                        onClick = onItemClick
+                    )
+                } else {
+                    Modifier
+                }
             )
             .hoverable(interactionSource)
     ) {
