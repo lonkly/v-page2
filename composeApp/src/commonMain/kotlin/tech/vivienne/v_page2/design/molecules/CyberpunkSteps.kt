@@ -28,7 +28,9 @@ data class StepItem(
 fun CyberPunkSteps(
     steps: List<StepItem>,
     modifier: Modifier = Modifier,
-    isBlackSection: Boolean = false
+    isBlackSection: Boolean = false,
+    labelTextStyle: TextStyle? = null,
+    numberTextStyle: TextStyle? = null
 ) {
     val circleColor = if (isBlackSection) CyberpunkTheme.colors.yellowPrimary else CyberpunkTheme.colors.purplePrimary
     val currentCircleColor = if (isBlackSection) CyberpunkTheme.colors.yellowPrimary else CyberpunkTheme.colors.blackPrimary
@@ -49,10 +51,13 @@ fun CyberPunkSteps(
                     CompactStepItem(
                         step = step,
                         stepNumber = index + 1,
+                        isLast = index == steps.lastIndex,
                         circleColor = if (step.isCurrent) currentCircleColor else circleColor,
                         textColor = if (step.isCurrent) currentTextColor else textColor,
                         lineColor = if (step.isCurrent) currentCircleColor else lineColor,
-                        labelColor = labelColor
+                        labelColor = labelColor,
+                        labelTextStyle = labelTextStyle,
+                        numberTextStyle = numberTextStyle
                     )
                 }
             }
@@ -71,6 +76,8 @@ fun CyberPunkSteps(
                         textColor = if (step.isCurrent) currentTextColor else textColor,
                         lineColor = if (step.isCurrent) currentCircleColor else lineColor,
                         labelColor = labelColor,
+                        labelTextStyle = labelTextStyle,
+                        numberTextStyle = numberTextStyle,
                         modifier = Modifier.weight(1f)
                     )
                 }
@@ -83,44 +90,66 @@ fun CyberPunkSteps(
 private fun CompactStepItem(
     step: StepItem,
     stepNumber: Int,
+    isLast: Boolean,
     circleColor: Color,
     textColor: Color,
     lineColor: Color,
-    labelColor: Color
+    labelColor: Color,
+    labelTextStyle: TextStyle? = null,
+    numberTextStyle: TextStyle? = null
 ) {
-    Row(
+    Box(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(start = 50.dp),
-        verticalAlignment = Alignment.Bottom
+            .padding(start = 50.dp)
     ) {
-        Box(
-            modifier = Modifier
-                .offset(x = (-50).dp)
-                .size(40.dp)
-                .clip(CircleShape)
-                .background(circleColor),
-            contentAlignment = Alignment.Center
-        ) {
-            Text(
-                text = stepNumber.toString(),
-                style = TextStyle(
-                    fontSize = 20.sp,
-                    fontWeight = FontWeight.Bold,
-                    color = textColor
+        // Draw vertical line connecting to next item
+        if (!isLast) {
+            Canvas(
+                modifier = Modifier
+                    .width(2.dp)
+                    .height(60.dp)
+                    .offset(x = (-30).dp, y = 40.dp)
+            ) {
+                drawRect(
+                    color = lineColor,
+                    size = size
                 )
-            )
+            }
         }
         
-        Text(
-            text = step.label,
-            style = TextStyle(
-                fontSize = 12.sp,
-                lineHeight = 12.sp,
-                color = labelColor
-            ),
-            modifier = Modifier.padding(bottom = 5.dp)
-        )
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.Bottom
+        ) {
+            Box(
+                modifier = Modifier
+                    .offset(x = (-50).dp)
+                    .size(40.dp)
+                    .clip(CircleShape)
+                    .background(circleColor),
+                contentAlignment = Alignment.Center
+            ) {
+                Text(
+                    text = stepNumber.toString(),
+                    style = numberTextStyle ?: TextStyle(
+                        fontSize = 20.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = textColor
+                    )
+                )
+            }
+            
+            Text(
+                text = step.label,
+                style = labelTextStyle ?: TextStyle(
+                    fontSize = 12.sp,
+                    lineHeight = 12.sp,
+                    color = labelColor
+                ),
+                modifier = Modifier.padding(bottom = 5.dp)
+            )
+        }
     }
 }
 
@@ -133,6 +162,8 @@ private fun FullStepItem(
     textColor: Color,
     lineColor: Color,
     labelColor: Color,
+    labelTextStyle: TextStyle? = null,
+    numberTextStyle: TextStyle? = null,
     modifier: Modifier = Modifier
 ) {
     Box(
@@ -142,7 +173,7 @@ private fun FullStepItem(
     ) {
         Text(
             text = step.label,
-            style = TextStyle(
+            style = labelTextStyle ?: TextStyle(
                 fontSize = 12.sp,
                 lineHeight = 12.sp,
                 color = labelColor
@@ -163,7 +194,7 @@ private fun FullStepItem(
         ) {
             Text(
                 text = stepNumber.toString(),
-                style = TextStyle(
+                style = numberTextStyle ?: TextStyle(
                     fontSize = 20.sp,
                     fontWeight = FontWeight.Bold,
                     color = textColor,

@@ -18,6 +18,7 @@ import androidx.compose.ui.graphics.StampedPathEffectStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.text.TextStyle
 
 @Composable
 fun CyberpunkTitle(
@@ -28,15 +29,17 @@ fun CyberpunkTitle(
     showCursor: Boolean = true,
     color: Color = CyberpunkTheme.colors.blackPrimary,
     showUnderline: Boolean = true,
-    useGlitchingUnderline: Boolean = false
+    useGlitchingUnderline: Boolean = false,
+    textStyle: TextStyle? = null
 ) {
     val colors = CyberpunkTheme.colors
-    val style = when (level) {
+    val defaultStyle = when (level) {
         CyberpunkTitleLevel.H1 -> CyberpunkTheme.typography.headlineLarge
         CyberpunkTitleLevel.H2 -> CyberpunkTheme.typography.headlineMedium
         CyberpunkTitleLevel.H3 -> CyberpunkTheme.typography.headlineSmall
         CyberpunkTitleLevel.H4 -> CyberpunkTheme.typography.titleLarge
     }
+    val style = textStyle ?: defaultStyle
 
     val underlineHeight = when (level) {
         CyberpunkTitleLevel.H1 -> 10.dp

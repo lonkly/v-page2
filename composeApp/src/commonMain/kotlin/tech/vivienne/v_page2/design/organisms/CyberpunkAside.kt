@@ -14,6 +14,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.geometry.Offset
+import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.geometry.Size
 import androidx.compose.ui.graphics.*
 import androidx.compose.ui.graphics.drawscope.DrawScope
@@ -33,13 +34,20 @@ fun CyberPunkAside(
     items: List<AsideMenuItem>,
     modifier: Modifier = Modifier,
     width: Dp = 230.dp,
-    collapsedOffset: Dp = 43.dp
+    collapsedOffset: Dp = 43.dp,
+    itemHeight: Dp? = null,
+    isMobile: Boolean = false,
+    onExpandedChange: ((Boolean) -> Unit)? = null
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val isHovered by interactionSource.collectIsHoveredAsState()
+    var internalExpanded by remember { mutableStateOf(false) }
+    
+    // On mobile, use tap to expand/collapse, on desktop use hover
+    val shouldExpand = if (isMobile) internalExpanded else isHovered
     
     val offsetX by animateDpAsState(
-        targetValue = if (isHovered) 20.dp else width - collapsedOffset,
+        targetValue = if (shouldExpand) 20.dp else width - collapsedOffset,
         animationSpec = tween(300),
         label = "aside_offset"
     )
@@ -48,16 +56,46 @@ fun CyberPunkAside(
         modifier = modifier
             .offset(x = offsetX)
             .width(width)
-            .hoverable(interactionSource)
+            .graphicsLayer {
+                // Ensure the menu is above other content
+                this.shadowElevation = 8.dp.toPx()
+                this.clip = false
+            }
+            .then(
+                if (isMobile) {
+                    Modifier.clickable(
+                        interactionSource = remember { MutableInteractionSource() },
+                        indication = null
+                    ) {
+                        // Toggle expansion on mobile
+                        internalExpanded = !internalExpanded
+                        onExpandedChange?.invoke(internalExpanded)
+                    }
+                } else {
+                    Modifier.hoverable(interactionSource)
+                }
+            )
     ) {
         Column(
-            modifier = Modifier.fillMaxWidth(),
+            modifier = Modifier
+                .fillMaxWidth(),
             verticalArrangement = Arrangement.spacedBy(3.dp)
         ) {
             items.forEach { item ->
                 AsideMenuItem(
                     item = item,
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth().then(
+                        if (itemHeight != null) Modifier.height(itemHeight) else Modifier
+                    ),
+                    isParentExpanded = shouldExpand,
+                    isMobile = isMobile,
+                    onItemClick = {
+                        item.onClick()
+                        if (isMobile) {
+                            internalExpanded = false
+                            onExpandedChange?.invoke(false)
+                        }
+                    }
                 )
             }
         }
@@ -67,7 +105,10 @@ fun CyberPunkAside(
 @Composable
 private fun AsideMenuItem(
     item: AsideMenuItem,
-    modifier: Modifier = Modifier
+    modifier: Modifier = Modifier,
+    isParentExpanded: Boolean = false,
+    isMobile: Boolean = false,
+    onItemClick: () -> Unit = { item.onClick() }
 ) {
     val interactionSource = remember { MutableInteractionSource() }
     val isHovered by interactionSource.collectIsHoveredAsState()
@@ -89,13 +130,22 @@ private fun AsideMenuItem(
             .fillMaxWidth()
             .graphicsLayer {
                 rotationZ = -15f
+                // Apply shadow after rotation so it rotates with the element
+                shadowElevation = 4.dp.toPx()
+                clip = true
             }
             .clip(AsideMenuItemShape())
             .background(backgroundColor)
-            .clickable(
-                interactionSource = interactionSource,
-                indication = null,
-                onClick = item.onClick
+            .then(
+                // Always make clickable on desktop, only restrict on mobile when collapsed
+                Modifier.clickable(
+                    interactionSource = interactionSource,
+                    indication = null,
+                    enabled = !isMobile || isParentExpanded,
+                    onClick = {
+                        onItemClick()
+                    }
+                )
             )
             .hoverable(interactionSource)
     ) {

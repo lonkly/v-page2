@@ -107,7 +107,6 @@ fun CyberpunkButton(
                     modifier = Modifier
                         .align(Alignment.CenterStart)
                         .offset(x = (-2).dp)
-                        .fillMaxHeight()
                         .width(2.dp)
                         .background(colors.borderGreen)
                 )

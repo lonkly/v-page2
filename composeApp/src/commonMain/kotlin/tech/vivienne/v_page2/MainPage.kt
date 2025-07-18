@@ -2,20 +2,29 @@ package tech.vivienne.v_page2
 
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.animateDpAsState
-import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.interaction.MutableInteractionSource
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.verticalScroll
+import androidx.compose.foundation.layout.FlowRow
+import androidx.compose.foundation.layout.FlowColumn
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
+import kotlinx.coroutines.launch
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.RectangleShape
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.onGloballyPositioned
+import androidx.compose.ui.layout.positionInParent
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import androidx.compose.ui.unit.Dp
 import tech.vivienne.v_page2.design.*
 import tech.vivienne.v_page2.design.atoms.*
 import tech.vivienne.v_page2.design.molecules.*
@@ -28,7 +37,7 @@ private fun IntroCard() {
         darkVariant = false // Yellow card with black text
     ) {
         Column(
-            modifier = Modifier.padding(32.dp)
+            modifier = Modifier.padding(24.dp)
         ) {
             CyberpunkTitle(
                 text = "KOTLIN MULTIPLATFORM SPECIALIST",
@@ -144,9 +153,7 @@ private fun SkillsCards() {
                         "Built enterprise applications for Fortune 500 clients"
                     ),
                     modifier = Modifier.fillMaxWidth(),
-                    textStyle = androidx.compose.ui.text.TextStyle(
-                        fontSize = 18.sp,
-                        lineHeight = 24.sp,
+                    textStyle = CyberpunkTheme.typography.bodyLarge.copy(
                         color = CyberpunkTheme.colors.blackPrimary
                     ),
                     isGlitched = false
@@ -177,9 +184,7 @@ private fun SkillsCards() {
                         "Created generic response parsing system using Swift generics"
                     ),
                     modifier = Modifier.fillMaxWidth(),
-                    textStyle = androidx.compose.ui.text.TextStyle(
-                        fontSize = 18.sp,
-                        lineHeight = 24.sp,
+                    textStyle = CyberpunkTheme.typography.bodyLarge.copy(
                         color = CyberpunkTheme.colors.yellowPrimary
                     ),
                     isGlitched = false,
@@ -211,9 +216,7 @@ private fun SkillsCards() {
                         "Migrated infrastructure saving $20K annually"
                     ),
                     modifier = Modifier.fillMaxWidth(),
-                    textStyle = androidx.compose.ui.text.TextStyle(
-                        fontSize = 18.sp,
-                        lineHeight = 24.sp,
+                    textStyle = CyberpunkTheme.typography.bodyLarge.copy(
                         color = CyberpunkTheme.colors.blackPrimary
                     )
                 )
@@ -243,9 +246,7 @@ private fun SkillsCards() {
                         "Drove technical decisions balancing business constraints"
                     ),
                     modifier = Modifier.fillMaxWidth(),
-                    textStyle = androidx.compose.ui.text.TextStyle(
-                        fontSize = 18.sp,
-                        lineHeight = 24.sp,
+                    textStyle = CyberpunkTheme.typography.bodyLarge.copy(
                         color = CyberpunkTheme.colors.yellowPrimary
                     ),
                     isGlitched = false,
@@ -264,7 +265,7 @@ private fun PhilosophyCard() {
         scanningEffect = false
     ) {
         Column(
-            modifier = Modifier.padding(32.dp)
+            modifier = Modifier.padding(18.dp)
         ) {
             CyberpunkTitle(
                 text = "ENGINEERING PHILOSOPHY",
@@ -272,17 +273,18 @@ private fun PhilosophyCard() {
                 color = CyberpunkTheme.colors.yellowPrimary,
                 glitchEffect = false
             )
-            CyberPunkSeparator(
-                modifier = Modifier.padding(vertical = 16.dp),
-                color = CyberpunkTheme.colors.yellowPrimary,
-                isGlitched = true
-            )
+            Spacer(modifier = Modifier.height(16.dp))
             CyberPunkParagraph(
                 text = "I believe in pragmatic engineering - choosing technologies that ship products, not just impressive resumes. Whether it's designing scalable architectures, optimizing build systems, or mentoring teams, I focus on delivering measurable business impact.",
                 style = ParagraphStyle.NORMAL,
                 isBlackSection = false
             )
             Spacer(modifier = Modifier.height(16.dp))
+            CyberPunkSeparator(
+                modifier = Modifier.padding(vertical = 16.dp),
+                color = CyberpunkTheme.colors.yellowPrimary,
+                isGlitched = true
+            )
             CyberPunkList(
                 items = listOf(
                     "Ship fast, iterate faster",
@@ -291,8 +293,7 @@ private fun PhilosophyCard() {
                     "Teams over tools, always"
                 ),
                 modifier = Modifier.fillMaxWidth(),
-                textStyle = androidx.compose.ui.text.TextStyle(
-                    fontSize = 16.sp,
+                textStyle = CyberpunkTheme.typography.bodyMedium.copy(
                     color = CyberpunkTheme.colors.yellowPrimary
                 ),
                 isGlitched = false,
@@ -300,6 +301,7 @@ private fun PhilosophyCard() {
             )
         }
     }
+    Spacer(modifier = Modifier.height(16.dp))
 }
 
 @Composable
@@ -310,14 +312,40 @@ fun MainPage() {
                 .fillMaxSize()
                 .background(CyberpunkTheme.colors.blackPrimary)
         ) {
-            val isMobile = maxWidth < 768.dp
-            var mobileMenuExpanded by remember { mutableStateOf(false) }
+            val windowSizeClass = calculateWindowSizeClass(maxWidth, maxHeight)
+            val isMobile = windowSizeClass.isCompact
+            val scrollState = rememberScrollState()
+            val coroutineScope = rememberCoroutineScope()
+            
+            // Track section layout info
+            val sectionPositions = remember { mutableMapOf<String, Float>() }
+            val density = LocalDensity.current
+            
+            // Create a modifier to track scroll positions
+            fun Modifier.trackScrollPosition(sectionId: String) = this
+                .onGloballyPositioned { coordinates ->
+                    sectionPositions[sectionId] = coordinates.positionInParent().y
+                }
+            
+            // Scroll to section function with bounds checking and offset
+            fun scrollToSection(sectionId: String) {
+                coroutineScope.launch {
+                    println("Scrolling to section: $sectionId, positions: $sectionPositions")
+                    sectionPositions[sectionId]?.let { position ->
+                        // Add a small offset for better visual alignment
+                        val offset = with(density) { 80.dp.toPx() }
+                        val targetScroll = (position - offset).toInt().coerceIn(0, scrollState.maxValue)
+                        println("Target scroll position: $targetScroll")
+                        scrollState.animateScrollTo(targetScroll)
+                    } ?: println("Section $sectionId not found in positions map")
+                }
+            }
             
             // Main Content
             Column(
                 modifier = Modifier
                     .fillMaxSize()
-                    .verticalScroll(rememberScrollState())
+                    .verticalScroll(scrollState)
             ) {
                 // Hero Section - Black background with yellow text
                 CyberPunkSection(
@@ -342,8 +370,15 @@ fun MainPage() {
                         CyberPunkParagraph(
                             text = "PRINCIPAL SOFTWARE ENGINEER",
                             style = ParagraphStyle.INVERSE,
-                            modifier = Modifier.fillMaxWidth(0.6f).align(Alignment.CenterHorizontally),
-                            isBlackSection = true
+                            modifier = Modifier.fillMaxWidth(0.8f).align(Alignment.CenterHorizontally),
+                            isBlackSection = true,
+                            textStyle = TextStyle(
+                                fontSize = 22.sp,
+                                fontWeight = androidx.compose.ui.text.font.FontWeight.Bold,
+                                fontFamily = FontFamily.Monospace,
+                                color = Color.Black,
+                                textAlign = TextAlign.Center
+                            ),
                         )
                         Spacer(modifier = Modifier.height(24.dp))
                         CyberpunkTitle(
@@ -351,7 +386,8 @@ fun MainPage() {
                             level = CyberpunkTitleLevel.H4,
                             color = CyberpunkTheme.colors.neonGreen,
                             glitchEffect = false,
-                            showCursor = false
+                            showCursor = true,
+                            showUnderline = false
                         )
                     }
                 }
@@ -362,83 +398,60 @@ fun MainPage() {
                     style = SectionStyle.YELLOW,
                     border = SectionBorder.BOTTOM
                 ) {
-                    if (isMobile) {
-                        Column(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(16.dp),
-                            verticalArrangement = Arrangement.spacedBy(12.dp),
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-                            CyberpunkButton(
-                                text = "DOWNLOAD CV",
-                                onClick = { /* TODO: Implement CV download */ },
-                                variant = CyberpunkButtonVariant.Red,
-                                codeIndicator = "CV-01",
-                                glitchEffect = true,
-                                modifier = Modifier.fillMaxWidth()
-                            )
-                            CyberpunkButton(
-                                text = "GITHUB",
-                                onClick = { /* TODO: Open GitHub */ },
-                                variant = CyberpunkButtonVariant.Green,
-                                codeIndicator = "GH-02",
-                                glitchEffect = true,
-                                modifier = Modifier.fillMaxWidth()
-                            )
-                            CyberpunkButton(
-                                text = "LINKEDIN",
-                                onClick = { /* TODO: Open LinkedIn */ },
-                                variant = CyberpunkButtonVariant.Blue,
-                                codeIndicator = "LI-03",
-                                modifier = Modifier.fillMaxWidth()
-                            )
-                            CyberpunkButton(
-                                text = "EMAIL",
-                                onClick = { /* TODO: Open email */ },
-                                variant = CyberpunkButtonVariant.Purple,
-                                codeIndicator = "EM-04",
-                                modifier = Modifier.fillMaxWidth()
-                            )
+                    FlowRow(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(horizontal = 16.dp, vertical = 24.dp),
+                        horizontalArrangement = Arrangement.SpaceEvenly,
+                        verticalArrangement = Arrangement.spacedBy(16.dp),
+                        maxItemsInEachRow = when (windowSizeClass.widthSizeClass) {
+                            WindowSizeClass.Compact -> 1
+                            WindowSizeClass.Medium -> 2
+                            WindowSizeClass.Expanded -> 4
                         }
-                    } else {
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(32.dp),
-                            horizontalArrangement = Arrangement.SpaceEvenly,
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            CyberpunkButton(
-                                text = "DOWNLOAD CV",
-                                onClick = { /* TODO: Implement CV download */ },
-                                variant = CyberpunkButtonVariant.Red,
-                                codeIndicator = "CV-01",
-                                glitchEffect = true,
-                                modifier = Modifier.weight(1f).padding(horizontal = 8.dp).offset(y = -30.dp)
-                            )
-                            CyberpunkButton(
-                                text = "GITHUB",
-                                onClick = { /* TODO: Open GitHub */ },
-                                variant = CyberpunkButtonVariant.Green,
-                                codeIndicator = "GH-02",
-                                modifier = Modifier.weight(1f).padding(horizontal = 8.dp)
-                            )
-                            CyberpunkButton(
-                                text = "LINKEDIN",
-                                onClick = { /* TODO: Open LinkedIn */ },
-                                variant = CyberpunkButtonVariant.Blue,
-                                codeIndicator = "LI-03",
-                                modifier = Modifier.weight(1f).padding(horizontal = 8.dp).offset(y = -20.dp)
-                            )
-                            CyberpunkButton(
-                                text = "EMAIL",
-                                onClick = { /* TODO: Open email */ },
-                                variant = CyberpunkButtonVariant.Purple,
-                                codeIndicator = "EM-04",
-                                modifier = Modifier.weight(1f).padding(horizontal = 8.dp).offset(y = -10.dp)
-                            )
+                    ) {
+                        val buttonModifier = when (windowSizeClass.widthSizeClass) {
+                            WindowSizeClass.Compact -> Modifier.fillMaxWidth(0.8f)
+                            WindowSizeClass.Medium -> Modifier.weight(1f).padding(horizontal = 8.dp)
+                            WindowSizeClass.Expanded -> Modifier.weight(1f).padding(horizontal = 16.dp)
                         }
+                        
+                        CyberpunkButton(
+                            text = "DOWNLOAD CV",
+                            onClick = { /* TODO: Implement CV download */ },
+                            variant = CyberpunkButtonVariant.Red,
+                            codeIndicator = "CV-01",
+                            glitchEffect = true,
+                            modifier = buttonModifier.then(
+                                if (!isMobile) Modifier.offset(y = (-30).dp) else Modifier
+                            )
+                        )
+                        CyberpunkButton(
+                            text = "GITHUB",
+                            onClick = { openUrl("https://www.github.com/lonkly/") },
+                            variant = CyberpunkButtonVariant.Green,
+                            codeIndicator = "GH-02",
+                            glitchEffect = false,
+                            modifier = buttonModifier.scanningEffect(isActive = true)
+                        )
+                        CyberpunkButton(
+                            text = "LINKEDIN",
+                            onClick = { openUrl("https://www.linkedin.com/in/lonkly/") },
+                            variant = CyberpunkButtonVariant.Blue,
+                            codeIndicator = "LI-03",
+                            modifier = buttonModifier.then(
+                                if (!isMobile) Modifier.offset(y = (-20).dp) else Modifier
+                            )
+                        )
+                        CyberpunkButton(
+                            text = "EMAIL",
+                            onClick = { openUrl("mailto:vifosh@gmail.com") },
+                            variant = CyberpunkButtonVariant.Purple,
+                            codeIndicator = "EM-04",
+                            modifier = buttonModifier.then(
+                                if (!isMobile) Modifier.offset(y = (-10).dp) else Modifier
+                            ).scanningEffect(isActive = true, direction = ScanDirection.Vertical)
+                        )
                     }
                 }
 
@@ -448,36 +461,57 @@ fun MainPage() {
                     style = SectionStyle.BLACK,
                     border = SectionBorder.BOTH
                 ) {
-                    if (isMobile) {
-                        // Mobile layout - no aside menu in main content
+                    Row(
+                        modifier = Modifier
+                            .fillMaxWidth()
+                            .padding(
+                                vertical = if (isMobile) 20.dp else 40.dp,
+                                horizontal = if (isMobile) 16.dp else 32.dp
+                            ),
+                        horizontalArrangement = Arrangement.Center
+                    ) {
+                        // Main Content Column
                         Column(
                             modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(vertical = 20.dp, horizontal = 16.dp)
+                                .weight(1f)
+                                .widthIn(max = when (windowSizeClass.widthSizeClass) {
+                                    WindowSizeClass.Compact -> Dp.Infinity
+                                    WindowSizeClass.Medium -> 720.dp
+                                    WindowSizeClass.Expanded -> 800.dp
+                                })
                         ) {
+                            Spacer(modifier = Modifier.height(16.dp))
                             // Intro Card - use extracted component
-                            IntroCard()
+                            Box(
+                                modifier = Modifier.trackScrollPosition("about")
+                            ) {
+                                IntroCard()
+                            }
 
-                            Spacer(modifier = Modifier.height(32.dp))
+                            Spacer(modifier = Modifier.height(16.dp))
 
                             // Technical Skills Section
                             CyberpunkTitle(
                                 text = "TECHNICAL SKILLS",
                                 level = CyberpunkTitleLevel.H2,
-                                color = CyberpunkTheme.colors.yellowPrimary
+                                color = CyberpunkTheme.colors.yellowPrimary,
+                                modifier = Modifier.trackScrollPosition("skills"),
+                                useGlitchingUnderline = true,
+                                showUnderline = true
                             )
                             Spacer(modifier = Modifier.height(24.dp))
                             
                             // Skills Cards - use extracted component
                             SkillsCards()
 
-                            Spacer(modifier = Modifier.height(32.dp))
+                            Spacer(modifier = Modifier.height(16.dp))
 
                             // Experience Timeline
                             CyberpunkTitle(
                                 text = "EXPERIENCE TIMELINE",
                                 level = CyberpunkTitleLevel.H3,
-                                color = CyberpunkTheme.colors.yellowPrimary
+                                color = CyberpunkTheme.colors.yellowPrimary,
+                                modifier = Modifier.trackScrollPosition("experience")
                             )
                             Spacer(modifier = Modifier.height(16.dp))
                             
@@ -489,103 +523,35 @@ fun MainPage() {
                                     StepItem("Mobile Lead\n2014-2017", false),
                                     StepItem("iOS Developer\n2009-2014", false)
                                 ),
-                                modifier = Modifier.fillMaxWidth(),
+                                modifier = Modifier.fillMaxWidth().padding(vertical = 16.dp),
                                 isBlackSection = true
                             )
 
                             Spacer(modifier = Modifier.height(32.dp))
 
                             // Philosophy Card - use extracted component
-                            PhilosophyCard()
-                        }
-                    } else {
-                        // Desktop layout - with aside menu
-                        Row(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(vertical = 40.dp, horizontal = 32.dp),
-                            horizontalArrangement = Arrangement.Center
-                        ) {
-                            // Left Column - Main Content
-                            Column(
-                                modifier = Modifier
-                                    .weight(1f)
-                                    .widthIn(max = 800.dp)
-                            ) {
-                                // Intro Card - use extracted component
-                                IntroCard()
-
-                                Spacer(modifier = Modifier.height(32.dp))
-
-                                // Technical Skills Section
-                                CyberpunkTitle(
-                                    text = "TECHNICAL SKILLS",
-                                    level = CyberpunkTitleLevel.H2,
-                                    color = CyberpunkTheme.colors.yellowPrimary,
-                                    showUnderline = true,
-                                    useGlitchingUnderline = true
-                                )
-                                Spacer(modifier = Modifier.height(24.dp))
-                                
-                                // Skills Cards - use extracted component
-                                SkillsCards()
-
-                                Spacer(modifier = Modifier.height(32.dp))
-
-                                // Experience Timeline
-                                CyberpunkTitle(
-                                    text = "EXPERIENCE TIMELINE",
-                                    level = CyberpunkTitleLevel.H3,
-                                    color = CyberpunkTheme.colors.yellowPrimary
-                                )
-                                Spacer(modifier = Modifier.height(16.dp))
-                                
-                                CyberPunkSteps(
-                                    steps = listOf(
-                                        StepItem("Principal Engineer\nCurrent", true),
-                                        StepItem("Staff Engineer\n2020-2023", false),
-                                        StepItem("Senior Engineer\n2017-2020", false),
-                                        StepItem("Mobile Lead\n2014-2017", false),
-                                        StepItem("iOS Developer\n2009-2014", false)
-                                    ),
-                                    modifier = Modifier.fillMaxWidth(),
-                                    isBlackSection = true
-                                )
-
-                                Spacer(modifier = Modifier.height(32.dp))
-
-                                // Philosophy Card - use extracted component
-                                PhilosophyCard()
-                                Spacer(modifier = Modifier.height(32.dp))
-                            }
-
-                            // Spacer between columns
-                            Spacer(modifier = Modifier.width(40.dp))
-
-                            // Right Column - Aside Menu
                             Box(
-                                modifier = Modifier
-                                    .width(240.dp)
-                                    .fillMaxHeight()
+                                modifier = Modifier.trackScrollPosition("philosophy")
                             ) {
-                                CyberPunkAside(
-                                    items = listOf(
-                                        AsideMenuItem("About", {}),
-                                        AsideMenuItem("Experience", {}),
-                                        AsideMenuItem("Projects", {}),
-                                        AsideMenuItem("Skills", {}),
-                                        AsideMenuItem("Contact", {})
-                                    ),
-                                    modifier = Modifier.offset(y = 90.dp)
-                                )
+                                PhilosophyCard()
                             }
+
+                            Spacer(modifier = Modifier.height(32.dp))
+                        }
+                        
+                        // Add spacers on desktop for layout balance
+                        if (!isMobile) {
+                            Spacer(modifier = Modifier.width(40.dp))
+                            Spacer(modifier = Modifier.width(240.dp))
                         }
                     }
                 }
 
                 // Footer Section - Yellow background
                 CyberPunkSection(
-                    modifier = Modifier.fillMaxWidth(),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .trackScrollPosition("contact"),
                     style = SectionStyle.YELLOW,
                     border = SectionBorder.BOTH
                 ) {
@@ -603,7 +569,7 @@ fun MainPage() {
                         )
                         Spacer(modifier = Modifier.height(16.dp))
                         CyberPunkParagraph(
-                            text = "Open to remote Principal/Staff engineering roles where I can drive technical strategy and architect systems at scale.",
+                            text = "Open to remote principal/staff engineering roles where I can drive technical strategy and architect systems at scale.",
                             style = ParagraphStyle.NORMAL,
                             isBlackSection = true,
                             modifier = Modifier.fillMaxWidth(0.8f)
@@ -624,86 +590,65 @@ fun MainPage() {
                 }
             }
             
-            // Mobile Menu - Bottom Sheet Style
-            if (isMobile) {
-                val menuOffsetY by animateDpAsState(
-                    targetValue = if (mobileMenuExpanded) 0.dp else 250.dp,
-                    animationSpec = tween(300)
-                )
-                
+            // Track expanded state for mobile menu
+            var mobileMenuExpanded by remember { mutableStateOf(false) }
+            
+            // Background click handler for mobile
+            if (isMobile && mobileMenuExpanded) {
                 Box(
                     modifier = Modifier
-                        .fillMaxWidth()
-                        .align(Alignment.BottomCenter)
-                        .offset(y = menuOffsetY)
-                        .background(CyberpunkTheme.colors.blackPrimary)
-                        .border(
-                            width = 2.dp,
-                            color = CyberpunkTheme.colors.borderGreen,
-                            shape = RectangleShape
-                        )
-                        .clickable { mobileMenuExpanded = !mobileMenuExpanded }
-                ) {
-                    Column {
-                        // Handle bar
-                        Box(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .height(48.dp)
-                                .background(CyberpunkTheme.colors.yellowPrimary)
-                                .padding(vertical = 16.dp),
-                            contentAlignment = Alignment.Center
+                        .fillMaxSize()
+                        .clickable(
+                            interactionSource = remember { MutableInteractionSource() },
+                            indication = null
                         ) {
-                            Box(
-                                modifier = Modifier
-                                    .width(60.dp)
-                                    .height(4.dp)
-                                    .background(CyberpunkTheme.colors.blackPrimary)
-                            )
+                            mobileMenuExpanded = false
                         }
-                        
-                        // Menu items
-                        if (mobileMenuExpanded) {
-                            Column(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(16.dp),
-                                verticalArrangement = Arrangement.spacedBy(12.dp)
-                            ) {
-                                CyberpunkButton(
-                                    text = "About",
-                                    onClick = { },
-                                    variant = CyberpunkButtonVariant.Green,
-                                    modifier = Modifier.fillMaxWidth()
-                                )
-                                CyberpunkButton(
-                                    text = "Experience",
-                                    onClick = { },
-                                    variant = CyberpunkButtonVariant.Green,
-                                    modifier = Modifier.fillMaxWidth()
-                                )
-                                CyberpunkButton(
-                                    text = "Projects",
-                                    onClick = { },
-                                    variant = CyberpunkButtonVariant.Green,
-                                    modifier = Modifier.fillMaxWidth()
-                                )
-                                CyberpunkButton(
-                                    text = "Skills",
-                                    onClick = { },
-                                    variant = CyberpunkButtonVariant.Green,
-                                    modifier = Modifier.fillMaxWidth()
-                                )
-                                CyberpunkButton(
-                                    text = "Contact",
-                                    onClick = { },
-                                    variant = CyberpunkButtonVariant.Green,
-                                    modifier = Modifier.fillMaxWidth()
-                                )
-                            }
-                        }
+                )
+            }
+            
+            // Main navigation menu - positioned at bottom right
+            Box(
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(bottom = 20.dp)
+                    .wrapContentHeight()
+            ) {
+                CyberPunkAside(
+                    items = listOf(
+                        AsideMenuItem("About", { scrollToSection("about") }),
+                        AsideMenuItem("Experience", { scrollToSection("experience") }),
+                        AsideMenuItem("Skills", { scrollToSection("skills") }),
+                        AsideMenuItem("Philosophy", { scrollToSection("philosophy") }),
+                        AsideMenuItem("Contact", { scrollToSection("contact") })
+                    ),
+                    modifier = Modifier.wrapContentHeight(),
+                    width = if (isMobile) 200.dp else 240.dp,
+                    collapsedOffset = if (isMobile) 80.dp else 43.dp,
+                    itemHeight = 40.dp,
+                    isMobile = isMobile,
+                    onExpandedChange = { expanded -> 
+                        if (isMobile) mobileMenuExpanded = expanded
                     }
-                }
+                )
+            }
+            
+            // Top WASM Menu - positioned at top right
+            Box(
+                modifier = Modifier
+                    .align(Alignment.TopEnd)
+                    .padding(top = 20.dp)
+            ) {
+                CyberPunkAside(
+                    items = listOf(
+                        AsideMenuItem("Coded with WASM", { openUrl("https://kotlinlang.org/docs/wasm-overview.html") })
+                    ),
+                    modifier = Modifier,
+                    width = if (isMobile) 250.dp else 300.dp,
+                    collapsedOffset = if (isMobile) 100.dp else 60.dp,
+                    itemHeight = 40.dp,
+                    isMobile = isMobile
+                )
             }
         }
     }

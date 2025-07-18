@@ -41,7 +41,8 @@ fun CyberPunkParagraph(
     style: ParagraphStyle = ParagraphStyle.NORMAL,
     scanEffect: ScanEffect = ScanEffect.NONE,
     label: String = if (style == ParagraphStyle.NORMAL) "P-14" else "T-71",
-    isBlackSection: Boolean = false
+    isBlackSection: Boolean = false,
+    textStyle: TextStyle? = null
 ) {
     val backgroundColor = when {
         isBlackSection && style == ParagraphStyle.NORMAL -> CyberpunkTheme.colors.blackPrimary
@@ -75,73 +76,78 @@ fun CyberPunkParagraph(
     
     Box(
         modifier = modifier
-            .clip(ParagraphShape())
-            .background(backgroundColor)
-            .then(
-                if (style == ParagraphStyle.INVERSE) {
-                    Modifier.border(
-                        BorderStroke(
-                            width = 3.dp,
-                            color = CyberpunkTheme.colors.borderGreen
-                        ),
-                        ParagraphShape()
-                    )
-                } else {
-                    Modifier
-                }
-            )
-            .padding(
-                horizontal = if (style == ParagraphStyle.NORMAL) 35.dp else 55.dp,
-                vertical = if (style == ParagraphStyle.NORMAL) 30.dp else 35.dp
-            )
     ) {
-        Text(
-            text = text,
-            style = TextStyle(
-                fontSize = 19.sp,
-                fontFamily = FontFamily.Default,
-                color = textColor,
-                textAlign = TextAlign.Center
-            ),
-            modifier = Modifier.align(Alignment.Center).fillMaxWidth()
-        )
+        Box(
+            modifier = Modifier
+                .clip(ParagraphShape())
+                .background(backgroundColor)
+                .then(
+                    if (style == ParagraphStyle.INVERSE) {
+                        Modifier.border(
+                            BorderStroke(
+                                width = 3.dp,
+                                color = CyberpunkTheme.colors.borderGreen
+                            ),
+                            ParagraphShape()
+                        )
+                    } else {
+                        Modifier
+                    }
+                )
+                .padding(
+                    horizontal = if (style == ParagraphStyle.NORMAL) 35.dp else 55.dp,
+                    vertical = if (style == ParagraphStyle.NORMAL) 30.dp else 35.dp
+                )
+        ) {
+            Text(
+                text = text,
+                style = textStyle ?: TextStyle(
+                    fontSize = 19.sp,
+                    fontFamily = FontFamily.Default,
+                    color = textColor,
+                    textAlign = TextAlign.Center
+                ),
+                modifier = Modifier.align(Alignment.Center).fillMaxWidth()
+            )
+            
+            if (scanEffect != ScanEffect.NONE) {
+                val scanColor = CyberpunkTheme.colors.borderGreen
+                Canvas(
+                    modifier = Modifier.fillMaxSize()
+                ) {
+                    when (scanEffect) {
+                        ScanEffect.HORIZONTAL -> drawHorizontalScan(scanPosition, scanColor)
+                        ScanEffect.VERTICAL -> drawVerticalScan(scanPosition, scanColor)
+                        ScanEffect.NONE -> {}
+                    }
+                }
+            }
+        }
         
+        // Label positioned relative to the outer box
         Box(
             modifier = Modifier
                 .align(Alignment.BottomEnd)
                 .offset(
-                    x = if (style == ParagraphStyle.INVERSE) (-90).dp else (-25).dp,
-                    y = if (style == ParagraphStyle.INVERSE) 9.dp else (-12).dp
+                    x = if (style == ParagraphStyle.INVERSE) (-10).dp else (-15).dp,
+                    y = if (style == ParagraphStyle.INVERSE) (-9).dp else (-12).dp
                 )
-                .background(backgroundColor)
+                .background(textColor)
                 .border(
                     BorderStroke(2.dp, CyberpunkTheme.colors.borderGreen),
                     RectangleShape
                 )
-                .padding(horizontal = 2.dp, vertical = 2.dp)
+                .padding(horizontal = 2.dp, vertical = 1.dp)
         ) {
             Text(
                 text = label,
                 style = TextStyle(
                     fontSize = 10.sp,
                     fontWeight = FontWeight.Bold,
-                    color = textColor,
+                    color = backgroundColor,
                     lineHeight = 10.sp
                 )
             )
-        }
-        
-        if (scanEffect != ScanEffect.NONE) {
-            val scanColor = CyberpunkTheme.colors.borderGreen
-            Canvas(
-                modifier = Modifier.fillMaxSize()
-            ) {
-                when (scanEffect) {
-                    ScanEffect.HORIZONTAL -> drawHorizontalScan(scanPosition, scanColor)
-                    ScanEffect.VERTICAL -> drawVerticalScan(scanPosition, scanColor)
-                    ScanEffect.NONE -> {}
-                }
-            }
         }
     }
 }
