@@ -71,7 +71,7 @@ private fun IntroCard() {
                             color = CyberpunkTheme.colors.redPrimary,
                             showCursor = false
                         )
-                        Spacer(modifier = Modifier.height(8.dp))
+                        Spacer(modifier = Modifier.height(16.dp))
                         CyberPunkLink(
                             text = "Code Sharing",
                             onClick = {},
@@ -97,7 +97,7 @@ private fun IntroCard() {
                             color = CyberpunkTheme.colors.greenPrimary,
                             showCursor = false
                         )
-                        Spacer(modifier = Modifier.height(8.dp))
+                        Spacer(modifier = Modifier.height(16.dp))
                         CyberPunkLink(
                             text = "Build Speed",
                             onClick = {},
@@ -123,7 +123,7 @@ private fun IntroCard() {
                             color = CyberpunkTheme.colors.bluePrimary,
                             showCursor = false
                         )
-                        Spacer(modifier = Modifier.height(8.dp))
+                        Spacer(modifier = Modifier.height(16.dp))
                         CyberPunkLink(
                             text = "Team Size",
                             onClick = {},

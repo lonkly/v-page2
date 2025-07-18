@@ -54,10 +54,12 @@ fun CyberPunkLink(
         Text(
             text = text,
             style = textStyle.copy(
-                fontWeight = FontWeight.Medium
+                fontWeight = textStyle.fontWeight ?: FontWeight.Medium
             ),
             color = color,
-            modifier = Modifier.padding(bottom = 4.dp)
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(bottom = 4.dp)
         )
         
         // Static underline with glow
