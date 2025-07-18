@@ -21,6 +21,7 @@ import androidx.compose.ui.layout.positionInParent
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
@@ -34,7 +35,7 @@ import tech.vivienne.v_page2.design.organisms.*
 private fun IntroCard() {
     CyberpunkCard(
         modifier = Modifier.fillMaxWidth(),
-        darkVariant = false // Yellow card with black text
+        darkVariant = true // Yellow card with black text
     ) {
         Column(
             modifier = Modifier.padding(24.dp)
@@ -42,13 +43,13 @@ private fun IntroCard() {
             CyberpunkTitle(
                 text = "KOTLIN MULTIPLATFORM SPECIALIST",
                 level = CyberpunkTitleLevel.H2,
-                color = CyberpunkTheme.colors.blackPrimary
+                color = CyberpunkTheme.colors.yellowPrimary,
             )
             Spacer(modifier = Modifier.height(16.dp))
             CyberPunkParagraph(
                 text = "I architect full-stack mobile solutions using Kotlin Multiplatform, achieving 95% code sharing across iOS, Android, and backend systems. With 15 years in mobile development - from Objective-C and Android 1.6 to modern SwiftUI and Compose - I've led teams of 20+ engineers through successful product launches from seed to Series C.",
                 style = ParagraphStyle.NORMAL,
-                isBlackSection = true
+                isBlackSection = false
             )
             Spacer(modifier = Modifier.height(24.dp))
             
@@ -74,8 +75,12 @@ private fun IntroCard() {
                         CyberPunkLink(
                             text = "Code Sharing",
                             onClick = {},
-                            color = CyberpunkTheme.colors.blackPrimary,
-                            textStyle = CyberpunkTheme.typography.bodySmall
+                            color = CyberpunkTheme.colors.yellowPrimary,
+                            textStyle = CyberpunkTheme.typography.bodyMedium.copy(
+                                fontWeight = FontWeight.SemiBold,
+                                fontSize = 14.sp,
+                                textAlign = TextAlign.Center
+                            )
                         )
                     }
                 }
@@ -96,8 +101,12 @@ private fun IntroCard() {
                         CyberPunkLink(
                             text = "Build Speed",
                             onClick = {},
-                            color = CyberpunkTheme.colors.blackPrimary,
-                            textStyle = CyberpunkTheme.typography.bodySmall
+                            color = CyberpunkTheme.colors.yellowPrimary,
+                            textStyle = CyberpunkTheme.typography.bodyMedium.copy(
+                                fontWeight = FontWeight.SemiBold,
+                                fontSize = 14.sp,
+                                textAlign = TextAlign.Center
+                            )
                         )
                     }
                 }
@@ -118,8 +127,12 @@ private fun IntroCard() {
                         CyberPunkLink(
                             text = "Team Size",
                             onClick = {},
-                            color = CyberpunkTheme.colors.blackPrimary,
-                            textStyle = CyberpunkTheme.typography.bodySmall
+                            color = CyberpunkTheme.colors.yellowPrimary,
+                            textStyle = CyberpunkTheme.typography.bodyMedium.copy(
+                                fontWeight = FontWeight.SemiBold,
+                                fontSize = 14.sp,
+                                textAlign = TextAlign.Center
+                            )
                         )
                     }
                 }

@@ -128,7 +128,7 @@ object CyberpunkTheme {
 
     val typography: Typography
         @Composable
-        get() = MaterialTheme.typography
+        get() = cyberpunkTypography()
 
     val shapes: Shapes
         @Composable
