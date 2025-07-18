@@ -22,6 +22,287 @@ import tech.vivienne.v_page2.design.molecules.*
 import tech.vivienne.v_page2.design.organisms.*
 
 @Composable
+private fun IntroCard() {
+    CyberpunkCard(
+        modifier = Modifier.fillMaxWidth(),
+        darkVariant = false // Yellow card with black text
+    ) {
+        Column(
+            modifier = Modifier.padding(32.dp)
+        ) {
+            CyberpunkTitle(
+                text = "KOTLIN MULTIPLATFORM SPECIALIST",
+                level = CyberpunkTitleLevel.H2,
+                color = CyberpunkTheme.colors.blackPrimary
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            CyberPunkParagraph(
+                text = "I architect full-stack mobile solutions using Kotlin Multiplatform, achieving 95% code sharing across iOS, Android, and backend systems. With 15 years in mobile development - from Objective-C and Android 1.6 to modern SwiftUI and Compose - I've led teams of 20+ engineers through successful product launches from seed to Series C.",
+                style = ParagraphStyle.NORMAL,
+                isBlackSection = true
+            )
+            Spacer(modifier = Modifier.height(24.dp))
+            
+            // Key Stats
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.SpaceEvenly
+            ) {
+                CyberPunkFieldset(
+                    modifier = Modifier.weight(1f).padding(horizontal = 4.dp)
+                ) {
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        modifier = Modifier.fillMaxWidth().padding(vertical = 16.dp)
+                    ) {
+                        CyberpunkTitle(
+                            text = "95%",
+                            level = CyberpunkTitleLevel.H3,
+                            color = CyberpunkTheme.colors.redPrimary,
+                            showCursor = false
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+                        CyberPunkLink(
+                            text = "Code Sharing",
+                            onClick = {},
+                            color = CyberpunkTheme.colors.blackPrimary,
+                            textStyle = CyberpunkTheme.typography.bodySmall
+                        )
+                    }
+                }
+                CyberPunkFieldset(
+                    modifier = Modifier.weight(1f).padding(horizontal = 4.dp)
+                ) {
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        modifier = Modifier.fillMaxWidth().padding(vertical = 16.dp)
+                    ) {
+                        CyberpunkTitle(
+                            text = "6x",
+                            level = CyberpunkTitleLevel.H3,
+                            color = CyberpunkTheme.colors.greenPrimary,
+                            showCursor = false
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+                        CyberPunkLink(
+                            text = "Build Speed",
+                            onClick = {},
+                            color = CyberpunkTheme.colors.blackPrimary,
+                            textStyle = CyberpunkTheme.typography.bodySmall
+                        )
+                    }
+                }
+                CyberPunkFieldset(
+                    modifier = Modifier.weight(1f).padding(horizontal = 4.dp)
+                ) {
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally,
+                        modifier = Modifier.fillMaxWidth().padding(vertical = 16.dp)
+                    ) {
+                        CyberpunkTitle(
+                            text = "20+",
+                            level = CyberpunkTitleLevel.H3,
+                            color = CyberpunkTheme.colors.bluePrimary,
+                            showCursor = false
+                        )
+                        Spacer(modifier = Modifier.height(8.dp))
+                        CyberPunkLink(
+                            text = "Team Size",
+                            onClick = {},
+                            color = CyberpunkTheme.colors.blackPrimary,
+                            textStyle = CyberpunkTheme.typography.bodySmall
+                        )
+                    }
+                }
+            }
+        }
+    }
+}
+
+@Composable
+private fun SkillsCards() {
+    Column {
+        // Mobile Development
+        CyberpunkCard(
+            modifier = Modifier.fillMaxWidth(),
+            darkVariant = false
+        ) {
+            Column(modifier = Modifier.padding(24.dp)) {
+                CyberpunkTitle(
+                    text = "MOBILE DEVELOPMENT",
+                    level = CyberpunkTitleLevel.H3,
+                    color = CyberpunkTheme.colors.redPrimary,
+                    showCursor = false
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+                CyberPunkList(
+                    items = listOf(
+                        "Architected Kotlin Multiplatform solutions sharing code across iOS, Android, and backend",
+                        "Pioneered SwiftUI 1.0 adoption with custom state management",
+                        "Improved app stability to 99.5% crash-free rate",
+                        "Implemented reactive patterns using RxSwift and Coroutines",
+                        "Built enterprise applications for Fortune 500 clients"
+                    ),
+                    modifier = Modifier.fillMaxWidth(),
+                    textStyle = androidx.compose.ui.text.TextStyle(
+                        fontSize = 18.sp,
+                        lineHeight = 24.sp,
+                        color = CyberpunkTheme.colors.blackPrimary
+                    ),
+                    isGlitched = false
+                )
+            }
+        }
+        
+        Spacer(modifier = Modifier.height(16.dp))
+        
+        // Backend Development
+        CyberpunkCard(
+            modifier = Modifier.fillMaxWidth(),
+            darkVariant = true
+        ) {
+            Column(modifier = Modifier.padding(24.dp)) {
+                CyberpunkTitle(
+                    text = "BACKEND DEVELOPMENT",
+                    level = CyberpunkTitleLevel.H3,
+                    color = CyberpunkTheme.colors.greenPrimary,
+                    showCursor = false
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+                CyberPunkList(
+                    items = listOf(
+                        "Designed Ktor microservices with shared KMP models",
+                        "Built blockchain data marketplace on custom EOSIO network",
+                        "Implemented dynamic server-driven UI parsing XML to SwiftUI",
+                        "Created generic response parsing system using Swift generics"
+                    ),
+                    modifier = Modifier.fillMaxWidth(),
+                    textStyle = androidx.compose.ui.text.TextStyle(
+                        fontSize = 18.sp,
+                        lineHeight = 24.sp,
+                        color = CyberpunkTheme.colors.yellowPrimary
+                    ),
+                    isGlitched = false,
+                    isBlackSection = true
+                )
+            }
+        }
+        
+        Spacer(modifier = Modifier.height(16.dp))
+        
+        // DevOps
+        CyberpunkCard(
+            modifier = Modifier.fillMaxWidth(),
+            darkVariant = false
+        ) {
+            Column(modifier = Modifier.padding(24.dp)) {
+                CyberpunkTitle(
+                    text = "DEVOPS & BUILD ENGINEERING",
+                    level = CyberpunkTitleLevel.H3,
+                    color = CyberpunkTheme.colors.bluePrimary,
+                    showCursor = false
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+                CyberPunkList(
+                    items = listOf(
+                        "Unified 30 retailer CI/CD pipelines into single system",
+                        "Reduced build times from 90 to 15 minutes",
+                        "Implemented Gradle remote caching for 80-developer team",
+                        "Migrated infrastructure saving $20K annually"
+                    ),
+                    modifier = Modifier.fillMaxWidth(),
+                    textStyle = androidx.compose.ui.text.TextStyle(
+                        fontSize = 18.sp,
+                        lineHeight = 24.sp,
+                        color = CyberpunkTheme.colors.blackPrimary
+                    )
+                )
+            }
+        }
+        
+        Spacer(modifier = Modifier.height(16.dp))
+        
+        // Leadership
+        CyberpunkCard(
+            modifier = Modifier.fillMaxWidth(),
+            darkVariant = true
+        ) {
+            Column(modifier = Modifier.padding(24.dp)) {
+                CyberpunkTitle(
+                    text = "LEADERSHIP & ARCHITECTURE",
+                    level = CyberpunkTitleLevel.H3,
+                    color = CyberpunkTheme.colors.purplePrimary,
+                    showCursor = false
+                )
+                Spacer(modifier = Modifier.height(16.dp))
+                CyberPunkList(
+                    items = listOf(
+                        "Led engineering teams up to 20 developers",
+                        "Designed scalable architectures using clean principles",
+                        "Established documentation and pairing practices",
+                        "Drove technical decisions balancing business constraints"
+                    ),
+                    modifier = Modifier.fillMaxWidth(),
+                    textStyle = androidx.compose.ui.text.TextStyle(
+                        fontSize = 18.sp,
+                        lineHeight = 24.sp,
+                        color = CyberpunkTheme.colors.yellowPrimary
+                    ),
+                    isGlitched = false,
+                    isBlackSection = true
+                )
+            }
+        }
+    }
+}
+
+@Composable
+private fun PhilosophyCard() {
+    CyberpunkCard(
+        modifier = Modifier.fillMaxWidth(),
+        darkVariant = true,
+        scanningEffect = false
+    ) {
+        Column(
+            modifier = Modifier.padding(32.dp)
+        ) {
+            CyberpunkTitle(
+                text = "ENGINEERING PHILOSOPHY",
+                level = CyberpunkTitleLevel.H3,
+                color = CyberpunkTheme.colors.yellowPrimary,
+                glitchEffect = false
+            )
+            CyberPunkSeparator(
+                modifier = Modifier.padding(vertical = 16.dp),
+                color = CyberpunkTheme.colors.yellowPrimary,
+                isGlitched = true
+            )
+            CyberPunkParagraph(
+                text = "I believe in pragmatic engineering - choosing technologies that ship products, not just impressive resumes. Whether it's designing scalable architectures, optimizing build systems, or mentoring teams, I focus on delivering measurable business impact.",
+                style = ParagraphStyle.NORMAL,
+                isBlackSection = false
+            )
+            Spacer(modifier = Modifier.height(16.dp))
+            CyberPunkList(
+                items = listOf(
+                    "Ship fast, iterate faster",
+                    "Code is a liability, features are assets",
+                    "Architecture should enable, not constrain",
+                    "Teams over tools, always"
+                ),
+                modifier = Modifier.fillMaxWidth(),
+                textStyle = androidx.compose.ui.text.TextStyle(
+                    fontSize = 16.sp,
+                    color = CyberpunkTheme.colors.yellowPrimary
+                ),
+                isGlitched = false,
+                isBlackSection = true
+            )
+        }
+    }
+}
+
+@Composable
 fun MainPage() {
     CyberpunkTheme {
         BoxWithConstraints(
@@ -54,7 +335,8 @@ fun MainPage() {
                             text = "VIVIENNE FOSH",
                             level = CyberpunkTitleLevel.H1,
                             color = CyberpunkTheme.colors.yellowPrimary,
-                            glitchEffect = false
+                            glitchEffect = false,
+                            useGlitchingUnderline = true
                         )
                         Spacer(modifier = Modifier.height(16.dp))
                         CyberPunkParagraph(
@@ -93,6 +375,7 @@ fun MainPage() {
                                 onClick = { /* TODO: Implement CV download */ },
                                 variant = CyberpunkButtonVariant.Red,
                                 codeIndicator = "CV-01",
+                                glitchEffect = true,
                                 modifier = Modifier.fillMaxWidth()
                             )
                             CyberpunkButton(
@@ -100,6 +383,7 @@ fun MainPage() {
                                 onClick = { /* TODO: Open GitHub */ },
                                 variant = CyberpunkButtonVariant.Green,
                                 codeIndicator = "GH-02",
+                                glitchEffect = true,
                                 modifier = Modifier.fillMaxWidth()
                             )
                             CyberpunkButton(
@@ -171,101 +455,8 @@ fun MainPage() {
                                 .fillMaxWidth()
                                 .padding(vertical = 20.dp, horizontal = 16.dp)
                         ) {
-                            // Intro Card
-                            CyberpunkCard(
-                                modifier = Modifier.fillMaxWidth(),
-                                darkVariant = false // Yellow card with black text
-                            ) {
-                                Column(
-                                    modifier = Modifier.padding(32.dp)
-                                ) {
-                                    CyberpunkTitle(
-                                        text = "KOTLIN MULTIPLATFORM SPECIALIST",
-                                        level = CyberpunkTitleLevel.H2,
-                                        color = CyberpunkTheme.colors.blackPrimary
-                                    )
-                                    Spacer(modifier = Modifier.height(16.dp))
-                                    CyberPunkParagraph(
-                                        text = "I architect full-stack mobile solutions using Kotlin Multiplatform, achieving 95% code sharing across iOS, Android, and backend systems. With 15 years in mobile development - from Objective-C and Android 1.6 to modern SwiftUI and Compose - I've led teams of 20+ engineers through successful product launches from seed to Series C.",
-                                        style = ParagraphStyle.NORMAL,
-                                        isBlackSection = false
-                                    )
-                                    Spacer(modifier = Modifier.height(24.dp))
-                                    
-                                    // Key Stats
-                                    Row(
-                                        modifier = Modifier.fillMaxWidth(),
-                                        horizontalArrangement = Arrangement.SpaceEvenly
-                                    ) {
-                                        CyberPunkFieldset(
-                                            modifier = Modifier.weight(1f).padding(horizontal = 4.dp)
-                                        ) {
-                                            Column(
-                                                horizontalAlignment = Alignment.CenterHorizontally,
-                                                modifier = Modifier.fillMaxWidth().padding(vertical = 16.dp)
-                                            ) {
-                                                CyberpunkTitle(
-                                                    text = "95%",
-                                                    level = CyberpunkTitleLevel.H3,
-                                                    color = CyberpunkTheme.colors.redPrimary,
-                                                    showCursor = false
-                                                )
-                                                Spacer(modifier = Modifier.height(8.dp))
-                                                CyberPunkLink(
-                                                    text = "Code Sharing",
-                                                    onClick = {},
-                                                    color = CyberpunkTheme.colors.blackPrimary,
-                                                    textStyle = CyberpunkTheme.typography.bodySmall
-                                                )
-                                            }
-                                        }
-                                        CyberPunkFieldset(
-                                            modifier = Modifier.weight(1f).padding(horizontal = 4.dp)
-                                        ) {
-                                            Column(
-                                                horizontalAlignment = Alignment.CenterHorizontally,
-                                                modifier = Modifier.fillMaxWidth().padding(vertical = 16.dp)
-                                            ) {
-                                                CyberpunkTitle(
-                                                    text = "6x",
-                                                    level = CyberpunkTitleLevel.H3,
-                                                    color = CyberpunkTheme.colors.greenPrimary,
-                                                    showCursor = false
-                                                )
-                                                Spacer(modifier = Modifier.height(8.dp))
-                                                CyberPunkLink(
-                                                    text = "Build Speed",
-                                                    onClick = {},
-                                                    color = CyberpunkTheme.colors.blackPrimary,
-                                                    textStyle = CyberpunkTheme.typography.bodySmall
-                                                )
-                                            }
-                                        }
-                                        CyberPunkFieldset(
-                                            modifier = Modifier.weight(1f).padding(horizontal = 4.dp)
-                                        ) {
-                                            Column(
-                                                horizontalAlignment = Alignment.CenterHorizontally,
-                                                modifier = Modifier.fillMaxWidth().padding(vertical = 16.dp)
-                                            ) {
-                                                CyberpunkTitle(
-                                                    text = "20+",
-                                                    level = CyberpunkTitleLevel.H3,
-                                                    color = CyberpunkTheme.colors.bluePrimary,
-                                                    showCursor = false
-                                                )
-                                                Spacer(modifier = Modifier.height(8.dp))
-                                                CyberPunkLink(
-                                                    text = "Team Size",
-                                                    onClick = {},
-                                                    color = CyberpunkTheme.colors.blackPrimary,
-                                                    textStyle = CyberpunkTheme.typography.bodySmall
-                                                )
-                                            }
-                                        }
-                                    }
-                                }
-                            }
+                            // Intro Card - use extracted component
+                            IntroCard()
 
                             Spacer(modifier = Modifier.height(32.dp))
 
@@ -277,136 +468,8 @@ fun MainPage() {
                             )
                             Spacer(modifier = Modifier.height(24.dp))
                             
-                            // Mobile Development
-                            CyberpunkCard(
-                                modifier = Modifier.fillMaxWidth(),
-                                darkVariant = false
-                            ) {
-                                Column(modifier = Modifier.padding(24.dp)) {
-                                    CyberpunkTitle(
-                                        text = "MOBILE DEVELOPMENT",
-                                        level = CyberpunkTitleLevel.H3,
-                                        color = CyberpunkTheme.colors.redPrimary,
-                                        showCursor = false
-                                    )
-                                    Spacer(modifier = Modifier.height(16.dp))
-                                    CyberPunkList(
-                                        items = listOf(
-                                            "Architected Kotlin Multiplatform solutions sharing code across iOS, Android, and backend",
-                                            "Pioneered SwiftUI 1.0 adoption with custom state management",
-                                            "Improved app stability to 99.5% crash-free rate",
-                                            "Implemented reactive patterns using RxSwift and Coroutines",
-                                            "Built enterprise applications for Fortune 500 clients"
-                                        ),
-                                        modifier = Modifier.fillMaxWidth(),
-                                        textStyle = androidx.compose.ui.text.TextStyle(
-                                            fontSize = 18.sp,
-                                            lineHeight = 24.sp,
-                                            color = CyberpunkTheme.colors.blackPrimary
-                                        )
-                                    )
-                                }
-                            }
-                            
-                            Spacer(modifier = Modifier.height(16.dp))
-                            
-                            // Backend Development
-                            CyberpunkCard(
-                                modifier = Modifier.fillMaxWidth(),
-                                darkVariant = true
-                            ) {
-                                Column(modifier = Modifier.padding(24.dp)) {
-                                    CyberpunkTitle(
-                                        text = "BACKEND DEVELOPMENT",
-                                        level = CyberpunkTitleLevel.H3,
-                                        color = CyberpunkTheme.colors.greenPrimary,
-                                        showCursor = false
-                                    )
-                                    Spacer(modifier = Modifier.height(16.dp))
-                                    CyberPunkList(
-                                        items = listOf(
-                                            "Designed Ktor microservices with shared KMP models",
-                                            "Built blockchain data marketplace on custom EOSIO network",
-                                            "Implemented dynamic server-driven UI parsing XML to SwiftUI",
-                                            "Created generic response parsing system using Swift generics"
-                                        ),
-                                        modifier = Modifier.fillMaxWidth(),
-                                        textStyle = androidx.compose.ui.text.TextStyle(
-                                            fontSize = 18.sp,
-                                            lineHeight = 24.sp,
-                                            color = CyberpunkTheme.colors.yellowPrimary
-                                        ),
-                                        isGlitched = false,
-                                        isBlackSection = true
-                                    )
-                                }
-                            }
-                            
-                            Spacer(modifier = Modifier.height(16.dp))
-                            
-                            // DevOps
-                            CyberpunkCard(
-                                modifier = Modifier.fillMaxWidth(),
-                                darkVariant = false
-                            ) {
-                                Column(modifier = Modifier.padding(24.dp)) {
-                                    CyberpunkTitle(
-                                        text = "DEVOPS & BUILD ENGINEERING",
-                                        level = CyberpunkTitleLevel.H3,
-                                        color = CyberpunkTheme.colors.bluePrimary,
-                                        showCursor = false
-                                    )
-                                    Spacer(modifier = Modifier.height(16.dp))
-                                    CyberPunkList(
-                                        items = listOf(
-                                            "Unified 30 retailer CI/CD pipelines into single system",
-                                            "Reduced build times from 90 to 15 minutes",
-                                            "Implemented Gradle remote caching for 80-developer team",
-                                            "Migrated infrastructure saving $20K annually"
-                                        ),
-                                        modifier = Modifier.fillMaxWidth(),
-                                        textStyle = androidx.compose.ui.text.TextStyle(
-                                            fontSize = 18.sp,
-                                            lineHeight = 24.sp,
-                                            color = CyberpunkTheme.colors.blackPrimary
-                                        )
-                                    )
-                                }
-                            }
-                            
-                            Spacer(modifier = Modifier.height(16.dp))
-                            
-                            // Leadership
-                            CyberpunkCard(
-                                modifier = Modifier.fillMaxWidth(),
-                                darkVariant = true
-                            ) {
-                                Column(modifier = Modifier.padding(24.dp)) {
-                                    CyberpunkTitle(
-                                        text = "LEADERSHIP & ARCHITECTURE",
-                                        level = CyberpunkTitleLevel.H3,
-                                        color = CyberpunkTheme.colors.purplePrimary,
-                                        showCursor = false
-                                    )
-                                    Spacer(modifier = Modifier.height(16.dp))
-                                    CyberPunkList(
-                                        items = listOf(
-                                            "Led engineering teams up to 20 developers",
-                                            "Designed scalable architectures using clean principles",
-                                            "Established documentation and pairing practices",
-                                            "Drove technical decisions balancing business constraints"
-                                        ),
-                                        modifier = Modifier.fillMaxWidth(),
-                                        textStyle = androidx.compose.ui.text.TextStyle(
-                                            fontSize = 18.sp,
-                                            lineHeight = 24.sp,
-                                            color = CyberpunkTheme.colors.yellowPrimary
-                                        ),
-                                        isGlitched = false,
-                                        isBlackSection = true
-                                    )
-                                }
-                            }
+                            // Skills Cards - use extracted component
+                            SkillsCards()
 
                             Spacer(modifier = Modifier.height(32.dp))
 
@@ -432,48 +495,8 @@ fun MainPage() {
 
                             Spacer(modifier = Modifier.height(32.dp))
 
-                            // Philosophy Card
-                            CyberpunkCard(
-                                modifier = Modifier.fillMaxWidth(),
-                                darkVariant = true, // Black card with yellow text
-                                scanningEffect = false
-                            ) {
-                                Column(
-                                    modifier = Modifier.padding(32.dp)
-                                ) {
-                                    CyberpunkTitle(
-                                        text = "ENGINEERING PHILOSOPHY",
-                                        level = CyberpunkTitleLevel.H3,
-                                        color = CyberpunkTheme.colors.yellowPrimary
-                                    )
-                                    CyberPunkSeparator(
-                                        modifier = Modifier.padding(vertical = 16.dp),
-                                        color = CyberpunkTheme.colors.yellowPrimary,
-                                        isGlitched = false
-                                    )
-                                    CyberPunkParagraph(
-                                        text = "I believe in pragmatic engineering - choosing technologies that ship products, not just impressive resumes. Whether it's designing scalable architectures, optimizing build systems, or mentoring teams, I focus on delivering measurable business impact.",
-                                        style = ParagraphStyle.NORMAL,
-                                        isBlackSection = true
-                                    )
-                                    Spacer(modifier = Modifier.height(16.dp))
-                                    CyberPunkList(
-                                        items = listOf(
-                                            "Ship fast, iterate faster",
-                                            "Code is a liability, features are assets",
-                                            "Architecture should enable, not constrain",
-                                            "Teams over tools, always"
-                                        ),
-                                        modifier = Modifier.fillMaxWidth(),
-                                        textStyle = androidx.compose.ui.text.TextStyle(
-                                            fontSize = 16.sp,
-                                            color = CyberpunkTheme.colors.yellowPrimary
-                                        ),
-                                        isGlitched = false,
-                                        isBlackSection = true
-                                    )
-                                }
-                            }
+                            // Philosophy Card - use extracted component
+                            PhilosophyCard()
                         }
                     } else {
                         // Desktop layout - with aside menu
@@ -489,95 +512,8 @@ fun MainPage() {
                                     .weight(1f)
                                     .widthIn(max = 800.dp)
                             ) {
-                                // Intro Card
-                                CyberpunkCard(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    darkVariant = false // Yellow card with black text
-                                ) {
-                                    Column(
-                                        modifier = Modifier.padding(32.dp)
-                                    ) {
-                                        CyberpunkTitle(
-                                            text = "KOTLIN MULTIPLATFORM SPECIALIST",
-                                            level = CyberpunkTitleLevel.H2,
-                                            color = CyberpunkTheme.colors.blackPrimary
-                                        )
-                                        Spacer(modifier = Modifier.height(16.dp))
-                                        CyberPunkParagraph(
-                                            text = "I architect full-stack mobile solutions using Kotlin Multiplatform, achieving 95% code sharing across iOS, Android, and backend systems. With 15 years in mobile development - from Objective-C and Android 1.6 to modern SwiftUI and Compose - I've led teams of 20+ engineers through successful product launches from seed to Series C.",
-                                            style = ParagraphStyle.NORMAL,
-                                            isBlackSection = false
-                                        )
-                                        Spacer(modifier = Modifier.height(24.dp))
-                                        
-                                        // Key Stats
-                                        Row(
-                                            modifier = Modifier.fillMaxWidth(),
-                                            horizontalArrangement = Arrangement.SpaceEvenly
-                                        ) {
-                                            CyberPunkFieldset(
-                                                modifier = Modifier.weight(1f).padding(horizontal = 4.dp)
-                                            ) {
-                                                Column(
-                                                    horizontalAlignment = Alignment.CenterHorizontally,
-                                                    modifier = Modifier.fillMaxWidth()
-                                                ) {
-                                                    CyberpunkTitle(
-                                                        text = "95%",
-                                                        level = CyberpunkTitleLevel.H3,
-                                                        color = CyberpunkTheme.colors.redPrimary,
-                                                        showCursor = false
-                                                    )
-                                                    CyberPunkLink(
-                                                        text = "Code Sharing",
-                                                        onClick = {},
-                                                        color = CyberpunkTheme.colors.blackPrimary
-                                                    )
-                                                }
-                                            }
-                                            CyberPunkFieldset(
-                                                modifier = Modifier.weight(1f).padding(horizontal = 4.dp)
-                                            ) {
-                                                Column(
-                                                    horizontalAlignment = Alignment.CenterHorizontally,
-                                                    modifier = Modifier.fillMaxWidth()
-                                                ) {
-                                                    CyberpunkTitle(
-                                                        text = "6x",
-                                                        level = CyberpunkTitleLevel.H3,
-                                                        color = CyberpunkTheme.colors.greenPrimary,
-                                                        showCursor = false
-                                                    )
-                                                    CyberPunkLink(
-                                                        text = "Build Speed",
-                                                        onClick = {},
-                                                        color = CyberpunkTheme.colors.blackPrimary
-                                                    )
-                                                }
-                                            }
-                                            CyberPunkFieldset(
-                                                modifier = Modifier.weight(1f).padding(horizontal = 4.dp)
-                                            ) {
-                                                Column(
-                                                    horizontalAlignment = Alignment.CenterHorizontally,
-                                                    modifier = Modifier.fillMaxWidth()
-                                                ) {
-                                                    CyberpunkTitle(
-                                                        text = "20+",
-                                                        level = CyberpunkTitleLevel.H3,
-                                                        color = CyberpunkTheme.colors.bluePrimary,
-                                                        showCursor = false
-                                                    )
-                                                    CyberPunkLink(
-                                                        text = "Team Size",
-                                                        onClick = {},
-                                                        color = CyberpunkTheme.colors.blackPrimary
-                                                    )
-                                                }
-                                            }
-                                        }
-                                    }
-                                }
+                                // Intro Card - use extracted component
+                                IntroCard()
 
                                 Spacer(modifier = Modifier.height(32.dp))
 
@@ -585,140 +521,14 @@ fun MainPage() {
                                 CyberpunkTitle(
                                     text = "TECHNICAL SKILLS",
                                     level = CyberpunkTitleLevel.H2,
-                                    color = CyberpunkTheme.colors.yellowPrimary
+                                    color = CyberpunkTheme.colors.yellowPrimary,
+                                    showUnderline = true,
+                                    useGlitchingUnderline = true
                                 )
                                 Spacer(modifier = Modifier.height(24.dp))
                                 
-                                // Mobile Development
-                                CyberpunkCard(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    darkVariant = false
-                                ) {
-                                    Column(modifier = Modifier.padding(24.dp)) {
-                                        CyberpunkTitle(
-                                            text = "MOBILE DEVELOPMENT",
-                                            level = CyberpunkTitleLevel.H3,
-                                            color = CyberpunkTheme.colors.redPrimary,
-                                            showCursor = false
-                                        )
-                                        Spacer(modifier = Modifier.height(16.dp))
-                                        CyberPunkList(
-                                            items = listOf(
-                                                "Architected Kotlin Multiplatform solutions sharing code across iOS, Android, and backend",
-                                                "Pioneered SwiftUI 1.0 adoption with custom state management",
-                                                "Improved app stability to 99.5% crash-free rate",
-                                                "Implemented reactive patterns using RxSwift and Coroutines",
-                                                "Built enterprise applications for Fortune 500 clients"
-                                            ),
-                                            modifier = Modifier.fillMaxWidth(),
-                                            textStyle = androidx.compose.ui.text.TextStyle(
-                                                fontSize = 18.sp,
-                                                lineHeight = 24.sp,
-                                                color = CyberpunkTheme.colors.blackPrimary
-                                            )
-                                        )
-                                    }
-                                }
-                                
-                                Spacer(modifier = Modifier.height(16.dp))
-                                
-                                // Backend Development
-                                CyberpunkCard(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    darkVariant = true
-                                ) {
-                                    Column(modifier = Modifier.padding(24.dp)) {
-                                        CyberpunkTitle(
-                                            text = "BACKEND DEVELOPMENT",
-                                            level = CyberpunkTitleLevel.H3,
-                                            color = CyberpunkTheme.colors.greenPrimary,
-                                            showCursor = false
-                                        )
-                                        Spacer(modifier = Modifier.height(16.dp))
-                                        CyberPunkList(
-                                            items = listOf(
-                                                "Designed Ktor microservices with shared KMP models",
-                                                "Built blockchain data marketplace on custom EOSIO network",
-                                                "Implemented dynamic server-driven UI parsing XML to SwiftUI",
-                                                "Created generic response parsing system using Swift generics"
-                                            ),
-                                            modifier = Modifier.fillMaxWidth(),
-                                            textStyle = androidx.compose.ui.text.TextStyle(
-                                                fontSize = 18.sp,
-                                                lineHeight = 24.sp,
-                                                color = CyberpunkTheme.colors.yellowPrimary
-                                            ),
-                                            isGlitched = false,
-                                            isBlackSection = true
-                                        )
-                                    }
-                                }
-                                
-                                Spacer(modifier = Modifier.height(16.dp))
-                                
-                                // DevOps
-                                CyberpunkCard(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    darkVariant = false
-                                ) {
-                                    Column(modifier = Modifier.padding(24.dp)) {
-                                        CyberpunkTitle(
-                                            text = "DEVOPS & BUILD ENGINEERING",
-                                            level = CyberpunkTitleLevel.H3,
-                                            color = CyberpunkTheme.colors.bluePrimary,
-                                            showCursor = false
-                                        )
-                                        Spacer(modifier = Modifier.height(16.dp))
-                                        CyberPunkList(
-                                            items = listOf(
-                                                "Unified 30 retailer CI/CD pipelines into single system",
-                                                "Reduced build times from 90 to 15 minutes",
-                                                "Implemented Gradle remote caching for 80-developer team",
-                                                "Migrated infrastructure saving $20K annually"
-                                            ),
-                                            modifier = Modifier.fillMaxWidth(),
-                                            textStyle = androidx.compose.ui.text.TextStyle(
-                                                fontSize = 18.sp,
-                                                lineHeight = 24.sp,
-                                                color = CyberpunkTheme.colors.blackPrimary
-                                            )
-                                        )
-                                    }
-                                }
-                                
-                                Spacer(modifier = Modifier.height(16.dp))
-                                
-                                // Leadership
-                                CyberpunkCard(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    darkVariant = true
-                                ) {
-                                    Column(modifier = Modifier.padding(24.dp)) {
-                                        CyberpunkTitle(
-                                            text = "LEADERSHIP & ARCHITECTURE",
-                                            level = CyberpunkTitleLevel.H3,
-                                            color = CyberpunkTheme.colors.purplePrimary,
-                                            showCursor = false
-                                        )
-                                        Spacer(modifier = Modifier.height(16.dp))
-                                        CyberPunkList(
-                                            items = listOf(
-                                                "Led engineering teams up to 20 developers",
-                                                "Designed scalable architectures using clean principles",
-                                                "Established documentation and pairing practices",
-                                                "Drove technical decisions balancing business constraints"
-                                            ),
-                                            modifier = Modifier.fillMaxWidth(),
-                                            textStyle = androidx.compose.ui.text.TextStyle(
-                                                fontSize = 18.sp,
-                                                lineHeight = 24.sp,
-                                                color = CyberpunkTheme.colors.yellowPrimary
-                                            ),
-                                            isGlitched = false,
-                                            isBlackSection = true
-                                        )
-                                    }
-                                }
+                                // Skills Cards - use extracted component
+                                SkillsCards()
 
                                 Spacer(modifier = Modifier.height(32.dp))
 
@@ -744,48 +554,8 @@ fun MainPage() {
 
                                 Spacer(modifier = Modifier.height(32.dp))
 
-                                // Philosophy Card
-                                CyberpunkCard(
-                                    modifier = Modifier.fillMaxWidth(),
-                                    darkVariant = true, // Black card with yellow text
-                                    scanningEffect = false
-                                ) {
-                                    Column(
-                                        modifier = Modifier.padding(32.dp)
-                                    ) {
-                                        CyberpunkTitle(
-                                            text = "ENGINEERING PHILOSOPHY",
-                                            level = CyberpunkTitleLevel.H3,
-                                            color = CyberpunkTheme.colors.yellowPrimary
-                                        )
-                                        CyberPunkSeparator(
-                                            modifier = Modifier.padding(vertical = 16.dp),
-                                            color = CyberpunkTheme.colors.yellowPrimary,
-                                            isGlitched = true
-                                        )
-                                        CyberPunkParagraph(
-                                            text = "I believe in pragmatic engineering - choosing technologies that ship products, not just impressive resumes. Whether it's designing scalable architectures, optimizing build systems, or mentoring teams, I focus on delivering measurable business impact.",
-                                            style = ParagraphStyle.NORMAL,
-                                            isBlackSection = true
-                                        )
-                                        Spacer(modifier = Modifier.height(16.dp))
-                                        CyberPunkList(
-                                            items = listOf(
-                                                "Ship fast, iterate faster",
-                                                "Code is a liability, features are assets",
-                                                "Architecture should enable, not constrain",
-                                                "Teams over tools, always"
-                                            ),
-                                            modifier = Modifier.fillMaxWidth(),
-                                            textStyle = androidx.compose.ui.text.TextStyle(
-                                                fontSize = 16.sp,
-                                                color = CyberpunkTheme.colors.yellowPrimary
-                                            ),
-                                            isGlitched = true,
-                                            isBlackSection = true
-                                        )
-                                    }
-                                }
+                                // Philosophy Card - use extracted component
+                                PhilosophyCard()
                                 Spacer(modifier = Modifier.height(32.dp))
                             }
 
@@ -806,7 +576,7 @@ fun MainPage() {
                                         AsideMenuItem("Skills", {}),
                                         AsideMenuItem("Contact", {})
                                     ),
-                                    modifier = Modifier.offset(y = 100.dp)
+                                    modifier = Modifier.offset(y = 90.dp)
                                 )
                             }
                         }
@@ -831,12 +601,12 @@ fun MainPage() {
                             color = CyberpunkTheme.colors.blackPrimary,
                             showCursor = false
                         )
-                        Spacer(modifier = Modifier.height(8.dp))
+                        Spacer(modifier = Modifier.height(16.dp))
                         CyberPunkParagraph(
                             text = "Open to remote Principal/Staff engineering roles where I can drive technical strategy and architect systems at scale.",
                             style = ParagraphStyle.NORMAL,
-                            isBlackSection = false,
-                            modifier = Modifier.fillMaxWidth(0.7f)
+                            isBlackSection = true,
+                            modifier = Modifier.fillMaxWidth(0.8f)
                         )
                         Spacer(modifier = Modifier.height(24.dp))
                         Row(
@@ -900,20 +670,36 @@ fun MainPage() {
                                     .padding(16.dp),
                                 verticalArrangement = Arrangement.spacedBy(12.dp)
                             ) {
-                                listOf(
-                                    "About" to {},
-                                    "Experience" to {},
-                                    "Projects" to {},
-                                    "Skills" to {},
-                                    "Contact" to {}
-                                ).forEach { (label, onClick) ->
-                                    CyberpunkButton(
-                                        text = label,
-                                        onClick = onClick,
-                                        variant = CyberpunkButtonVariant.Green,
-                                        modifier = Modifier.fillMaxWidth()
-                                    )
-                                }
+                                CyberpunkButton(
+                                    text = "About",
+                                    onClick = { },
+                                    variant = CyberpunkButtonVariant.Green,
+                                    modifier = Modifier.fillMaxWidth()
+                                )
+                                CyberpunkButton(
+                                    text = "Experience",
+                                    onClick = { },
+                                    variant = CyberpunkButtonVariant.Green,
+                                    modifier = Modifier.fillMaxWidth()
+                                )
+                                CyberpunkButton(
+                                    text = "Projects",
+                                    onClick = { },
+                                    variant = CyberpunkButtonVariant.Green,
+                                    modifier = Modifier.fillMaxWidth()
+                                )
+                                CyberpunkButton(
+                                    text = "Skills",
+                                    onClick = { },
+                                    variant = CyberpunkButtonVariant.Green,
+                                    modifier = Modifier.fillMaxWidth()
+                                )
+                                CyberpunkButton(
+                                    text = "Contact",
+                                    onClick = { },
+                                    variant = CyberpunkButtonVariant.Green,
+                                    modifier = Modifier.fillMaxWidth()
+                                )
                             }
                         }
                     }

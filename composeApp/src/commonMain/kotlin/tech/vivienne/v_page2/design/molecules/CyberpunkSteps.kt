@@ -43,7 +43,7 @@ fun CyberPunkSteps(
         if (isCompact) {
             Column(
                 modifier = Modifier.fillMaxWidth(),
-                verticalArrangement = Arrangement.spacedBy(40.dp)
+                verticalArrangement = Arrangement.spacedBy(20.dp)
             ) {
                 steps.forEachIndexed { index, step ->
                     CompactStepItem(
@@ -137,7 +137,7 @@ private fun FullStepItem(
 ) {
     Box(
         modifier = modifier
-            .height(100.dp)
+            .height(80.dp)
             .padding(end = if (isLast) 0.dp else 20.dp)
     ) {
         Text(
@@ -149,14 +149,14 @@ private fun FullStepItem(
             ),
             modifier = Modifier
                 .align(Alignment.BottomStart)
-                .padding(bottom = 65.dp, end = 20.dp)
+                .padding(bottom = 32.dp, end = 20.dp)
         )
         
         Box(
             modifier = Modifier
                 .size(40.dp)
                 .align(Alignment.BottomStart)
-                .offset(y = 40.dp)
+                .offset(y = 20.dp)
                 .clip(CircleShape)
                 .background(circleColor),
             contentAlignment = Alignment.Center
@@ -178,7 +178,7 @@ private fun FullStepItem(
                     .fillMaxWidth()
                     .height(2.dp)
                     .align(Alignment.BottomStart)
-                    .offset(x = 40.dp, y = 20.dp)
+                    .offset(x = 40.dp, y = 0.dp)
             ) {
                 drawLine(lineColor)
             }

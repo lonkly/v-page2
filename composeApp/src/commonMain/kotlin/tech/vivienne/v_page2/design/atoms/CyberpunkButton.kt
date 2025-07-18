@@ -53,7 +53,7 @@ fun CyberpunkButton(
                 isPressed = !isPressed
                 onClick()
             }
-            .glitchEffect(isActive = glitchEffect, intensity = 1.2f)
+            .glitchEffect(isActive = glitchEffect, intensity = 2.5f)
     ) {
         // Main button content with padding
         Row(

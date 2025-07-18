@@ -80,20 +80,36 @@ fun Modifier.glitchEffect(
 ): Modifier {
     val infiniteTransition = rememberInfiniteTransition()
 
-    // Create a more subtle, digital glitch effect
+    // More visible glitch with multiple animations
     val glitchOffset by infiniteTransition.animateFloat(
         initialValue = 0f,
         targetValue = 0f,
         animationSpec = infiniteRepeatable(
             animation = keyframes {
-                durationMillis = 3000
+                durationMillis = 2000
                 0f at 0
-                0f at 2700
-                2f * intensity at 2750
-                -1f * intensity at 2800
-                0f at 2850
-                -2f * intensity at 2900
-                0f at 3000
+                0f at 1700
+                8f * intensity at 1750
+                -6f * intensity at 1800
+                4f * intensity at 1850
+                -8f * intensity at 1900
+                0f at 1950
+            },
+            repeatMode = RepeatMode.Restart
+        )
+    )
+
+    val skewX by infiniteTransition.animateFloat(
+        initialValue = 0f,
+        targetValue = 0f,
+        animationSpec = infiniteRepeatable(
+            animation = keyframes {
+                durationMillis = 2500
+                0f at 0
+                0f at 2200
+                0.5f * intensity at 2250
+                -0.3f * intensity at 2300
+                0f at 2350
             },
             repeatMode = RepeatMode.Restart
         )
@@ -104,12 +120,12 @@ fun Modifier.glitchEffect(
         targetValue = 0f,
         animationSpec = infiniteRepeatable(
             animation = keyframes {
-                durationMillis = 4000
+                durationMillis = 1800
                 0f at 0
-                0f at 3700
-                1f * intensity at 3750
-                -0.5f * intensity at 3800
-                0f at 3850
+                0f at 1500
+                3f * intensity at 1550
+                -2f * intensity at 1600
+                0f at 1650
             },
             repeatMode = RepeatMode.Restart
         )
@@ -120,23 +136,25 @@ fun Modifier.glitchEffect(
             // Draw main content
             drawContent()
             
-            // Add subtle chromatic aberration effect
+            // Add chromatic aberration effect during glitch
             if (chromaOffset != 0f) {
-                drawContent()
+                // Red channel offset
                 drawRect(
-                    color = Color.Red.copy(alpha = 0.1f),
+                    color = Color.Red.copy(alpha = 0.15f),
                     topLeft = Offset(chromaOffset.dp.toPx(), 0f),
                     size = size
                 )
+                // Cyan channel offset
                 drawRect(
-                    color = Color.Cyan.copy(alpha = 0.1f),
+                    color = Color.Cyan.copy(alpha = 0.15f),
                     topLeft = Offset(-chromaOffset.dp.toPx(), 0f),
                     size = size
                 )
             }
-        }.graphicsLayer(
+        }.graphicsLayer {
             translationX = glitchOffset
-        )
+            rotationZ = skewX * 5f  // Use rotation instead of skew
+        }
     } else {
         this
     }

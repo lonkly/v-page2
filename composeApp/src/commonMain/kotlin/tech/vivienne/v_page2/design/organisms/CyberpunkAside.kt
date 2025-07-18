@@ -39,7 +39,7 @@ fun CyberPunkAside(
     val isHovered by interactionSource.collectIsHoveredAsState()
     
     val offsetX by animateDpAsState(
-        targetValue = if (isHovered) 0.dp else width - collapsedOffset,
+        targetValue = if (isHovered) 20.dp else width - collapsedOffset,
         animationSpec = tween(300),
         label = "aside_offset"
     )

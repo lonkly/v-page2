@@ -57,11 +57,6 @@ fun CyberPunkParagraph(
         else -> CyberpunkTheme.colors.yellowPrimary
     }
     
-    val borderColor = when {
-        isBlackSection && style == ParagraphStyle.NORMAL -> CyberpunkTheme.colors.yellowPrimary
-        style == ParagraphStyle.NORMAL -> CyberpunkTheme.colors.blackPrimary
-        else -> CyberpunkTheme.colors.borderGreen
-    }
     
     val infiniteTransition = rememberInfiniteTransition()
     val scanPosition = if (scanEffect != ScanEffect.NONE) {
@@ -81,16 +76,9 @@ fun CyberPunkParagraph(
     Box(
         modifier = modifier
             .clip(ParagraphShape())
+            .background(backgroundColor)
             .then(
-                if (style == ParagraphStyle.NORMAL) {
-                    Modifier.border(
-                        BorderStroke(
-                            width = 5.dp,
-                            color = borderColor
-                        ),
-                        ParagraphShape()
-                    )
-                } else {
+                if (style == ParagraphStyle.INVERSE) {
                     Modifier.border(
                         BorderStroke(
                             width = 3.dp,
@@ -98,14 +86,13 @@ fun CyberPunkParagraph(
                         ),
                         ParagraphShape()
                     )
+                } else {
+                    Modifier
                 }
             )
-            .background(backgroundColor)
             .padding(
-                start = if (style == ParagraphStyle.NORMAL) 5.dp else 15.dp,
-                end = if (style == ParagraphStyle.NORMAL) 5.dp else 15.dp,
-                top = if (style == ParagraphStyle.NORMAL) 30.dp else 40.dp,
-                bottom = if (style == ParagraphStyle.NORMAL) 24.dp else 30.dp
+                horizontal = if (style == ParagraphStyle.NORMAL) 35.dp else 55.dp,
+                vertical = if (style == ParagraphStyle.NORMAL) 30.dp else 35.dp
             )
     ) {
         Text(
@@ -122,22 +109,25 @@ fun CyberPunkParagraph(
         Box(
             modifier = Modifier
                 .align(Alignment.BottomEnd)
-                .offset(x = (-25).dp, y = 36.dp)
+                .offset(
+                    x = if (style == ParagraphStyle.INVERSE) (-90).dp else (-25).dp,
+                    y = if (style == ParagraphStyle.INVERSE) 9.dp else (-12).dp
+                )
                 .background(backgroundColor)
                 .border(
                     BorderStroke(2.dp, CyberpunkTheme.colors.borderGreen),
                     RectangleShape
                 )
-                .padding(horizontal = 2.dp)
+                .padding(horizontal = 2.dp, vertical = 2.dp)
         ) {
             Text(
                 text = label,
                 style = TextStyle(
                     fontSize = 10.sp,
                     fontWeight = FontWeight.Bold,
-                    color = textColor
-                ),
-                lineHeight = 10.sp
+                    color = textColor,
+                    lineHeight = 10.sp
+                )
             )
         }
         
@@ -195,19 +185,22 @@ class ParagraphShape : Shape {
         density: androidx.compose.ui.unit.Density
     ): Outline {
         val path = Path().apply {
-            moveTo(0f, size.height * 0.1f)
-            lineTo(size.width * 0.1f, 0f)
-            lineTo(size.width * 0.6f - size.height * 0.1f, 0f)
-            lineTo(size.width * 0.6f, size.height * 0.1f)
-            lineTo(size.width, size.height * 0.1f)
-            lineTo(size.width, size.height * 0.9f)
-            lineTo(size.width * 0.95f, size.height * 0.9f)
-            lineTo(size.width * 0.8f - size.height * 0.04f, size.height * 0.9f)
-            lineTo(size.width * 0.8f - size.height * 0.06f, size.height)
-            lineTo(size.width * 0.25f, size.height)
-            lineTo(size.width * 0.2f, size.height * 0.94f)
-            lineTo(0f, size.height * 0.94f)
-            close()
+            with(density) {
+                // CSS: polygon(0px 25px, 26px 0px, calc(60% - 25px) 0px, 60% 25px, 100% 25px, 100% calc(100% - 10px), calc(100% - 15px) calc(100% - 10px), calc(80% - 10px) calc(100% - 10px), calc(80% - 15px) 100%, 80px calc(100% - 0px), 65px calc(100% - 15px), 0% calc(100% - 15px))
+                moveTo(0f, 25.dp.toPx())
+                lineTo(26.dp.toPx(), 0f)
+                lineTo(size.width * 0.6f - 25.dp.toPx(), 0f)
+                lineTo(size.width * 0.6f, 25.dp.toPx())
+                lineTo(size.width, 25.dp.toPx())
+                lineTo(size.width, size.height - 10.dp.toPx())
+                lineTo(size.width - 15.dp.toPx(), size.height - 10.dp.toPx())
+                lineTo(size.width * 0.8f - 10.dp.toPx(), size.height - 10.dp.toPx())
+                lineTo(size.width * 0.8f - 15.dp.toPx(), size.height)
+                lineTo(80.dp.toPx(), size.height)
+                lineTo(65.dp.toPx(), size.height - 15.dp.toPx())
+                lineTo(0f, size.height - 15.dp.toPx())
+                close()
+            }
         }
         return Outline.Generic(path)
     }
