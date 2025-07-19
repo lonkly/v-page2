@@ -30,6 +30,7 @@ import tech.vivienne.v_page2.design.*
 import tech.vivienne.v_page2.design.atoms.*
 import tech.vivienne.v_page2.design.molecules.*
 import tech.vivienne.v_page2.design.organisms.*
+import tech.vivienne.v_page2.platform.isTouchDevice
 
 @Composable
 private fun IntroCard() {
@@ -326,7 +327,11 @@ fun MainPage() {
                 .background(CyberpunkTheme.colors.blackPrimary)
         ) {
             val windowSizeClass = calculateWindowSizeClass(maxWidth, maxHeight)
-            val isMobile = windowSizeClass.isCompact
+            val isCompactScreen = windowSizeClass.isCompact
+            val isTouch = isTouchDevice()
+            // Consider it "mobile" for interaction if it's either a small screen OR a touch device
+            // This covers phones, tablets, iPads, and touch-enabled laptops
+            val isMobile = isCompactScreen || isTouch
             val scrollState = rememberScrollState()
             val coroutineScope = rememberCoroutineScope()
             
@@ -445,7 +450,7 @@ fun MainPage() {
                             variant = CyberpunkButtonVariant.Green,
                             codeIndicator = "GH-02",
                             glitchEffect = false,
-                            modifier = buttonModifier.scanningEffect(isActive = true)
+                            modifier = buttonModifier
                         )
                         CyberpunkButton(
                             text = "LINKEDIN",
@@ -463,7 +468,7 @@ fun MainPage() {
                             codeIndicator = "EM-04",
                             modifier = buttonModifier.then(
                                 if (!isMobile) Modifier.offset(y = (-10).dp) else Modifier
-                            ).scanningEffect(isActive = true, direction = ScanDirection.Vertical)
+                            )
                         )
                     }
                 }
