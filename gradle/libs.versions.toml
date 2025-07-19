@@ -1,0 +1,107 @@
+[versions]
+androidx-lifecycle = "2.9.1"
+composeMultiplatform = "1.8.2"
+junit = "4.13.2"
+kotlin = "2.2.0"
+ktor = "3.2.1"
+logback = "1.5.18"
+decoroutin="2.5.4"
+detekt = "1.23.8"
+graalvm = "0.10.6"
+
+kotlinxCoroutinesCore = "1.10.2"
+kotlinxDatetime = "0.6.2"
+
+decompose = "3.3.0"
+essenty = "2.5.0"
+kotlinxSerialization = "1.9.0"
+
+kotlinx-io-core = "0.8.0"
+kotlinx-immutableCollections = "0.4.0"
+hot-reload = "1.0.0-beta04"
+
+
+[libraries]
+kotlin-test = { module = "org.jetbrains.kotlin:kotlin-test", version.ref = "kotlin" }
+kotlin-testJunit = { module = "org.jetbrains.kotlin:kotlin-test-junit", version.ref = "kotlin" }
+junit = { module = "junit:junit", version.ref = "junit" }
+androidx-lifecycle-viewmodel = { module = "org.jetbrains.androidx.lifecycle:lifecycle-viewmodel", version.ref = "androidx-lifecycle" }
+androidx-lifecycle-runtimeCompose = { module = "org.jetbrains.androidx.lifecycle:lifecycle-runtime-compose", version.ref = "androidx-lifecycle" }
+
+
+##### KTOR #####
+
+
+ktor-client-auth = { module = "io.ktor:ktor-client-auth", version.ref = "ktor" }
+ktor-client-core = { module = "io.ktor:ktor-client-core", version.ref = "ktor" }
+ktor-client-cio = { module = "io.ktor:ktor-client-cio", version.ref = "ktor" }
+ktor-client-darwin = { module = "io.ktor:ktor-client-darwin", version.ref = "ktor" }
+ktor-client-content-negotiation = { module = "io.ktor:ktor-client-content-negotiation", version.ref = "ktor" }
+ktor-client-logging = { module = "io.ktor:ktor-client-logging", version.ref = "ktor" }
+ktor-client-mock = { module = "io.ktor:ktor-client-mock", version.ref = "ktor" }
+
+
+ktor-server-serialization-json = { module = "io.ktor:ktor-serialization-kotlinx-json", version.ref = "ktor" }
+ktor-server-auth = { module = "io.ktor:ktor-server-auth", version.ref = "ktor" }
+ktor-server-auth-jwt = { module = "io.ktor:ktor-server-auth-jwt", version.ref = "ktor" }
+ktor-server-content-negotiation = { module = "io.ktor:ktor-server-content-negotiation", version.ref = "ktor" }
+ktor-server-sse = { module = "io.ktor:ktor-server-sse", version.ref = "ktor" }
+ktor-serverCore = { module = "io.ktor:ktor-server-core-jvm", version.ref = "ktor" }
+ktor-serverNetty = { module = "io.ktor:ktor-server-netty-jvm", version.ref = "ktor" }
+ktor-serverCio = { module = "io.ktor:ktor-server-cio", version.ref = "ktor" }
+ktor-serverTestHost = { module = "io.ktor:ktor-server-test-host-jvm", version.ref = "ktor" }
+logback = { module = "ch.qos.logback:logback-classic", version.ref = "logback" }
+
+
+orbital = { module = "com.github.skydoves:orbital", version = "0.4.0" }
+
+##### DECOMPOSE #####
+
+decompose-decompose = { group = "com.arkivanov.decompose", name = "decompose", version.ref = "decompose" }
+decompose-extensionsComposeJetbrains = { module = "com.arkivanov.decompose:extensions-compose", version.ref = "decompose" }
+essenty-backHandler = { group = "com.arkivanov.essenty", name = "back-handler", version.ref = "essenty" }
+essenty-stateKeeper = { group = "com.arkivanov.essenty", name = "state-keeper", version.ref="essenty"}
+essenty-lifecycle = { group = "com.arkivanov.essenty", name = "lifecycle", version.ref = "essenty" }
+
+lifecycle-coroutines = { group = "com.arkivanov.essenty", name = "lifecycle-coroutines", version.ref = "essenty" }
+
+###### COMPOSE MATERIAL #####
+
+compose-material3 = { module = "org.jetbrains.compose.material3:material3", version.ref = "composeMultiplatform" }
+compose-material3-window = { module = "org.jetbrains.compose.material3:material3-window-size-class", version.ref = "composeMultiplatform" }
+compose-material-icons-core = { module = "org.jetbrains.compose.material:material-icons-core", version = "1.7.3" }
+compose-material-icons-extended = { module = "org.jetbrains.compose.material:material-icons-extended", version = "1.7.3" }
+
+
+###### KOTLINX ########
+
+kotlinx-io-core            = { group = "org.jetbrains.kotlinx", name= "kotlinx-io-core", version.ref = "kotlinx-io-core" }
+kotlinx-datetime           = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", version.ref = "kotlinxDatetime" }
+kotlinx-serialization      = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-core", version.ref = "kotlinxSerialization" }
+kotlinx-coroutines-core    = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-core", version.ref = "kotlinxCoroutinesCore" }
+kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerialization" }
+kotlinx-coroutines-android = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-android", version.ref = "kotlinxCoroutinesCore" }
+kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinxCoroutinesCore" }
+kotlinx-immutableCollections = { group = "org.jetbrains.kotlinx", name = "kotlinx-collections-immutable", version.ref = "kotlinx-immutableCollections" }
+
+##### HAZE #####
+haze = { module = "dev.chrisbanes.haze:haze", version = "1.6.7" }
+haze-materials = { module = "dev.chrisbanes.haze:haze-materials", version = "1.6.7" }
+
+##### WEBVIEW #####
+compose-webview = { module = "io.github.kevinnzou:compose-webview-multiplatform", version = "2.0.1" }
+
+
+
+[plugins]
+composeMultiplatform = { id = "org.jetbrains.compose", version.ref = "composeMultiplatform" }
+composeCompiler = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
+kotlinJvm = { id = "org.jetbrains.kotlin.jvm", version.ref = "kotlin" }
+ktor = { id = "io.ktor.plugin", version.ref = "ktor" }
+decoroutinator = { id = "dev.reformator.stacktracedecoroutinator", version.ref = "decoroutin"}
+detekt = { id = "io.gitlab.arturbosch.detekt", version.ref = "detekt" }
+kotlinMultiplatform = { id = "org.jetbrains.kotlin.multiplatform", version.ref = "kotlin" }
+kotlin-serializable = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+hot-reload = { id = "org.jetbrains.compose.hot-reload", version.ref = "hot-reload" }
+graalvm-native = { id = "org.graalvm.buildtools.native", version.ref = "graalvm" }
+
